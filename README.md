@@ -2,7 +2,13 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.80 (Android, PC Windows, Mac et iPhone web : apk/creator-1.80.apk, apk/creator-1.80-pc.zip, apk/creator-1.80-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.81 (Android, PC Windows, Mac et iPhone web : apk/creator-1.81.apk, apk/creator-1.81-pc.zip, apk/creator-1.81-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.81 (2026-10-21)
+- Casino refait (casino.gd) : salle sombre, table de cuir avec tapis en dégradé, cartes arrondies avec coins et dos brodé, jetons de casino (piles), croupier et joueurs plus détaillés, roue de roulette réaliste, tapis de roulette en trois colonnes, machine à sous avec effet de cylindre.
+- Mises au curseur (1 px jusqu'à tout ce qu'on possède) au blackjack, au poker (mise de départ et relance), à la roulette (valeur du jeton) et aux machines à sous ; boutons Min, ¼, ½, Max.
+- Défenses de maison (defenses.gd, meubles « Pics de sécurité » 5 000 px et « Mitraillette automatique » 25 000 px, en mode Construire) : les pics sortent du sol et tuent sur le coup un joueur non invité ou un méchant, puis rentrent ; la mitraillette balaie un laser rouge, vise et tire sur les méchants et les joueurs non invités qui s'approchent (réseau « def » pour que les voisins voient les tirs).
+- Le panneau SORTIE n'apparaît plus dans les maisons, seulement dans les lieux publics (main.is_private_home).
 
 ## Version 1.80 (2026-10-21)
 - Hélicoptères refaits en Apache (vehicles.gd _heli) et changeables de couleur chez le concessionnaire (main.vehicle_color / set_vehicle_color, sauvegarde couleurs_vehicules, envoyé aux autres joueurs 'vc').

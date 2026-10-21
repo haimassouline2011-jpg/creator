@@ -97,3 +97,4 @@
 - ✅ 1.73 (2026-10-21) : Marché Mondial + marchés HK/Paris/TLV, 30 plats, bus/métro/train, croisière, vocaux au téléphone, boutons mobiles plus grands + plein écran, guide Nouveautés.
 - ✅ 1.72 (2026-10-19) : police calmée (tir dans le vide, méchants), coffres bois/cuir/or/diamant 2 min à soi puis libres, pièces au sol ou vers l'hélico, tête qui suit la souris.
 - ✅ 1.80 (2026-10-21) : hélicos Apache colorables, personnages réalistes uniquement, 18 accessoires rares, pieds au sol, croisière corrigée, Gili passif.
+- ✅ 1.81 (2026-10-21) : casino moderne avec mises au curseur, pics et mitraillettes de maison, panneau Sortie réservé aux lieux publics.
