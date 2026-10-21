@@ -80,6 +80,13 @@ details p{color:var(--ink-2);margin:10px 0 0}
 .pillcat{display:inline-block;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-right:6px}
 .empty{color:var(--muted);padding:20px 0}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hero-v{position:relative;border-radius:var(--radius-xl);overflow:hidden;background:#000;aspect-ratio:16/9;margin:0 0 22px}
+.hero-v video{width:100%;height:100%;object-fit:cover;display:block}
+.hero-v button{position:absolute;right:14px;bottom:14px;font:600 14px var(--font);border:0;border-radius:999px;padding:9px 16px;background:rgba(255,255,255,.92);color:#0a0a0a;cursor:pointer}
+.maps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.maps figure{margin:0}
+.maps video{width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);background:#000;display:block;object-fit:cover}
+.maps figcaption{font-weight:600;margin-top:8px}
 .foot{color:var(--soft);font-size:13px;padding:30px 0;border-top:1px solid var(--line)}
 </style>
 </head>
@@ -128,12 +135,18 @@ details p{color:var(--ink-2);margin:10px 0 0}
   <section class="tab" id="jeu">
     <h1 data-t="j_h1">Télécharger Creator</h1>
     <p class="lede" data-t="j_lede">Une ville vivante de Hong Kong à Paris et Tel Aviv : construis, conduis, appelle tes amis et vis ta vie.</p>
+    <div class="hero-v">
+      <video id="hero" src="videos/montage.mp4" poster="videos/montage.jpg" autoplay muted loop playsinline preload="metadata"></video>
+      <button id="hero-sound" data-t="sound">Activer le son</button>
+    </div>
     <div class="dl">
       <a id="dl-android" href="#"><b>Android</b><span data-t="j_apk">Fichier APK</span></a>
       <a id="dl-pc" href="#"><b>PC Windows</b><span data-t="j_zip">Fichier ZIP</span></a>
       <a id="dl-mac" href="#"><b>Mac</b><span data-t="j_zip">Fichier ZIP</span></a>
       <a href="../" target="_blank" rel="noopener"><b>iPhone · Safari</b><span data-t="j_web">Jouer dans le navigateur</span></a>
     </div>
+    <h2 data-t="maps">Les maps en vidéo</h2>
+    <div class="maps" id="maps"></div>
     <h2 data-t="news">Nouveautés</h2>
     <ul class="news" id="news"></ul>
     <h2 data-t="faq">Questions fréquentes</h2>
@@ -203,6 +216,7 @@ const T = {
   since:"Membre depuis le ",created:"Compte créé ! Tu peux jouer avec ce compte.",check:"Compte créé. Ouvre l'e-mail de confirmation, puis connecte-toi.",
   welcome:"Bienvenue ",saved:"Pseudo enregistré.",posted:"Message publié.",reply:"Répondre",send:"Envoyer",
   empty:"Pas encore de message ici. Lance la discussion !",soon:"Le forum ouvre très bientôt.",offline:"Impossible de joindre le serveur. Réessaie dans un instant.",
+  sound:"Activer le son",mute:"Couper le son",maps:"Les maps en vidéo",
   loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…"},
  en:{t_compte:"Create an account",t_jeu:"Download the game",t_profil:"Player profile",
   c_h1:"Your Creator account",c_lede:"The same account works in the game (Android, PC, Mac, iPhone) and on this site: profile, forum and soon your progress.",
@@ -217,6 +231,7 @@ const T = {
   since:"Member since ",created:"Account created! You can play with it.",check:"Account created. Open the confirmation email, then log in.",
   welcome:"Welcome ",saved:"Nickname saved.",posted:"Message posted.",reply:"Reply",send:"Send",
   empty:"No messages here yet. Start the conversation!",soon:"The forum opens very soon.",offline:"Can't reach the server. Try again in a moment.",
+  sound:"Turn sound on",mute:"Mute",maps:"The maps on video",
   loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…"}
 };
 const NEWS = {
@@ -263,9 +278,17 @@ function applyLang(){
   $("#news").innerHTML = NEWS[lang].map(n => "<li>" + esc(n) + "</li>").join("");
   $("#faq").innerHTML = FAQ[lang].map(q => "<details><summary>" + esc(q[0]) + "</summary><p>" + esc(q[1]) + "</p></details>").join("");
   $("#po-cat").innerHTML = CATS.map(c => '<option value="' + c + '">' + esc(t(c)) + "</option>").join("");
-  renderCats(); renderUser(); loadPosts();
+  renderMaps(); renderCats(); renderUser(); loadPosts();
+  $("#hero-sound").textContent = t($("#hero").muted ? "sound" : "mute");
 }
 document.querySelectorAll(".langs button").forEach(b => b.onclick = () => { lang = b.dataset.l; try{localStorage.setItem("creator_lang", lang);}catch(e){} applyLang(); });
+
+const MAPS = [["hongkong","Hong Kong"],["aeroport",{fr:"Aéroport",en:"Airport"}],["paris","Paris"],["telaviv","Tel Aviv"],["neocite",{fr:"Néo-Cité",en:"Neo City"}],["foret",{fr:"Forêt",en:"Forest"}]];
+function renderMaps(){
+  $("#maps").innerHTML = MAPS.map(m => '<figure><video src="videos/' + m[0] + '.mp4" poster="videos/' + m[0] + '.jpg" controls playsinline preload="none"></video><figcaption>' +
+    esc(typeof m[1] === "string" ? m[1] : (m[1][lang] || m[1].fr)) + "</figcaption></figure>").join("");
+}
+$("#hero-sound").onclick = () => { const v = $("#hero"); v.muted = !v.muted; if(!v.muted) v.play(); $("#hero-sound").textContent = t(v.muted ? "sound" : "mute"); };
 
 function show(tab){
   document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("on", s.id === tab));
