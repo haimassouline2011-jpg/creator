@@ -1,515 +1,559 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
+<script>(function(){function go(){var h=location.hash.slice(1);if(["compte","joueurs","profil","jeu"].indexOf(h)>=0)location.replace("espace.html#"+h)}go();addEventListener("hashchange",go)})()</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Creator · Compte</title>
-<meta name="description" content="Crée ton compte Creator, télécharge le jeu, retrouve ton profil, les nouveautés, la FAQ et le forum.">
-<link rel="icon" href="../index.icon.png">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title data-i18n="title">Download Creator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 <style>
+/* Creator · page de téléchargement — blanc, touches noires, très épuré */
 :root{
-  --bg:#ffffff;--ink:#0a0a0a;--ink-2:#3a3a3c;--muted:#6e6e73;--soft:#a1a1a6;
-  --line:#e6e6e8;--line-strong:#cfcfd3;--surface:#f6f6f7;--on-ink:#ffffff;
-  --ok:#1f9d55;--bad:#d70015;
-  --radius-xl:28px;--radius-lg:20px;--radius-md:14px;
+  --bg:#ffffff;
+  --ink:#0a0a0a;
+  --ink-2:#3a3a3c;
+  --muted:#6e6e73;
+  --soft:#a1a1a6;
+  --line:#e6e6e8;
+  --line-strong:#cfcfd3;
+  --surface:#f6f6f7;
+  --on-ink:#ffffff;
+  --screen:#0b0b0c;
+  --radius-xl:32px;
+  --radius-lg:22px;
+  --radius-md:16px;
   --font:"Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+  --gutter:max(16px,env(safe-area-inset-left,0px));
+  --gutter-r:max(16px,env(safe-area-inset-right,0px));
+  --cycle:30s;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0a0a0b;--ink:#f5f5f7;--ink-2:#d1d1d6;--muted:#9a9aa0;--soft:#6e6e73;
-  --line:#232326;--line-strong:#3a3a3e;--surface:#151517;--on-ink:#0a0a0a;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0a0a0b;--ink:#f5f5f7;--ink-2:#d1d1d6;--muted:#9a9aa0;--soft:#6e6e73;
-  --line:#232326;--line-strong:#3a3a3e;--surface:#151517;--on-ink:#0a0a0a;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%;display:block}
 a{color:inherit}
-.wrap{max-width:980px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
-.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);
-  -webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line)}
-.top .wrap{height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wrap{max-width:1160px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+@media (min-width:760px){:root{--gutter:max(32px,env(safe-area-inset-left,0px));--gutter-r:max(32px,env(safe-area-inset-right,0px))}}
+
+/* ---------- Barre du haut ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:19px;letter-spacing:-.03em}
-.mark{width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-size:15px}
-.langs{display:flex;gap:4px}
-.langs button{font:600 13px var(--font);border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:5px 10px;cursor:pointer}
-.langs button.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
-.tabs{display:flex;gap:6px;margin:26px 0 8px;padding:5px;background:var(--surface);border-radius:999px;overflow-x:auto}
-.tabs button{flex:1 1 0;min-width:0;font:600 15px/1.2 var(--font);border:0;border-radius:999px;padding:11px 12px;cursor:pointer;background:transparent;color:var(--ink-2)}
-@media(max-width:520px){.tabs button{font-size:13px;padding:10px 6px}}
-.tabs button.on{background:var(--ink);color:var(--on-ink)}
-section.tab{display:none;padding:22px 0 60px}
-section.tab.on{display:block}
-h1{font-size:clamp(30px,6vw,52px);letter-spacing:-.04em;line-height:1.05;margin:8px 0 10px}
-h2{font-size:22px;letter-spacing:-.02em;margin:34px 0 12px}
-.lede{color:var(--muted);margin:0 0 22px;max-width:620px}
-.card{border:1px solid var(--line);border-radius:var(--radius-xl);padding:22px;background:var(--bg)}
-.grid2{display:grid;gap:16px}
-@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
-label{display:block;font-weight:600;font-size:14px;margin:12px 0 6px}
-input,textarea,select{width:100%;font:16px var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px 14px}
-textarea{min-height:120px;resize:vertical}
-input:focus,textarea:focus,select:focus{outline:2px solid var(--ink);outline-offset:1px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 16px var(--font);padding:13px 22px;border-radius:999px;
-  background:var(--ink);color:var(--on-ink);border:1px solid var(--ink);cursor:pointer;text-decoration:none;margin-top:16px}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
-.btn.small{padding:8px 14px;font-size:14px;margin-top:0}
-.btn:disabled{opacity:.5;cursor:default}
-.msg{margin-top:12px;font-size:14px;min-height:20px}
-.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
-.dl{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.dl a{display:flex;flex-direction:column;gap:2px;padding:18px;border:1px solid var(--line);border-radius:var(--radius-lg);text-decoration:none}
-.dl a:hover{border-color:var(--ink)}
-.dl b{font-size:18px}.dl span{color:var(--muted);font-size:14px}
-.news li{margin:6px 0}
-details{border:1px solid var(--line);border-radius:var(--radius-md);padding:14px 16px;margin:8px 0}
-summary{font-weight:600;cursor:pointer}
-details p{color:var(--ink-2);margin:10px 0 0}
-.me{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.avatar{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-weight:800;font-size:26px}
-.me .who b{font-size:22px;display:block}.me .who span{color:var(--muted);font-size:14px}
-.cats{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
-.cats button{font:600 14px var(--font);border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:999px;padding:7px 13px;cursor:pointer}
-.cats button.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
-.post{border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px;margin:10px 0}
-.post h3{margin:0 0 4px;font-size:17px}
-.post .meta{color:var(--muted);font-size:13px}
-.post p{margin:8px 0 0;white-space:pre-wrap;word-wrap:break-word}
-.reply{margin:10px 0 0 14px;padding-left:12px;border-left:2px solid var(--line)}
-.pillcat{display:inline-block;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-right:6px}
-.empty{color:var(--muted);padding:20px 0}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.hero-v{position:relative;border-radius:var(--radius-xl);overflow:hidden;background:#000;aspect-ratio:16/9;margin:0 0 22px}
-.hero-v video{width:100%;height:100%;object-fit:cover;display:block}
-.hero-v button{position:absolute;right:14px;bottom:14px;font:600 14px var(--font);border:0;border-radius:999px;padding:9px 16px;background:rgba(255,255,255,.92);color:#0a0a0a;cursor:pointer}
-.maps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.maps figure{margin:0}
-.maps video{width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);background:#000;display:block;object-fit:cover}
-.maps figcaption{font-weight:600;margin-top:8px}
-.gal{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-.gal img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-md);display:block;cursor:zoom-in;background:var(--surface)}
-.lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);display:none;place-items:center;padding:16px}
-.lb.on{display:grid}.lb img{max-width:100%;max-height:90vh;border-radius:12px}
-.stats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin:0 0 8px}
-.stat{border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px}
-.stat b{display:block;font-size:clamp(22px,5vw,30px);letter-spacing:-.03em}.stat span{color:var(--muted);font-size:14px}
-.rank{list-style:none;padding:0;margin:0;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
-.rank li{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
-.rank li:first-child{border-top:0}
-.rank .n{width:30px;font-weight:800;color:var(--muted)}
-.rank li:nth-child(1) .n{color:#d4a300}.rank li:nth-child(2) .n{color:#8e8e93}.rank li:nth-child(3) .n{color:#b86b2a}
-.rank .p{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rank .v{font-weight:700;font-variant-numeric:tabular-nums}
-.rank li.mine{background:var(--surface)}
-.badge{font-size:11px;font-weight:700;border-radius:999px;padding:2px 7px;margin-left:6px;color:#0a0a0a;vertical-align:2px}
-.badge.argent{background:#e3e6ea}.badge.or{background:#ffd60a}.badge.diamant{background:#7fe8ff}
-.players{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-.players .empty{grid-column:1/-1}
-.pl{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--radius-md);padding:10px 12px;min-width:0}
-.pl .av{width:36px;height:36px;flex:none;border-radius:50%;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-weight:800}
-.pl div{min-width:0}.pl b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pl span{color:var(--muted);font-size:13px}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:5px}
-.foot{color:var(--soft);font-size:13px;padding:30px 0;border-top:1px solid var(--line)}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;flex:none}
+.mark svg{width:16px;height:16px}
+.pill{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:var(--font);font-weight:600;font-size:15px;
+  padding:9px 18px;border-radius:999px;background:var(--ink);color:var(--on-ink);border:1px solid var(--ink);
+  transition:transform .2s ease,background .2s ease,color .2s ease,box-shadow .2s ease;white-space:nowrap}
+.pill:hover{transform:translateY(-1px);box-shadow:0 8px 20px -8px rgba(0,0,0,.45)}
+.pill svg{width:16px;height:16px}
+.pill.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.pill.ghost:hover{border-color:var(--ink);box-shadow:none}
+
+/* ---------- Hero ---------- */
+.hero{padding-top:56px;text-align:center}
+.tag{display:inline-flex;align-items:center;gap:8px;margin:0 0 22px;padding:6px 14px 6px 10px;border:1px solid var(--line);
+  border-radius:999px;font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.01em;background:var(--bg)}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px rgba(10,10,10,.08)}
+h1{font-size:clamp(42px,8.4vw,96px);font-weight:800;letter-spacing:-.05em;line-height:.98;margin:0 auto;max-width:12em}
+h1 .dim{color:var(--soft)}
+.lede{max-width:560px;margin:22px auto 0;color:var(--muted);font-size:clamp(17px,2vw,19px);line-height:1.5}
+.cta{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:30px 0 0}
+.cta .pill{padding:13px 24px;font-size:16px}
+
+/* ---------- Fenêtre animée ---------- */
+.stage{margin:48px auto 0;position:relative}
+.window{position:relative;width:100%;aspect-ratio:16/9;max-height:78vh;min-height:300px;border-radius:var(--radius-xl);overflow:hidden;
+  background:var(--screen);isolation:isolate;
+  box-shadow:0 0 0 1px rgba(0,0,0,.06),0 40px 80px -30px rgba(0,0,0,.35),0 18px 36px -18px rgba(0,0,0,.25);
+  animation:window-in 1.4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes window-in{from{transform:translateY(24px) scale(.975);opacity:0}to{transform:none;opacity:1}}
+
+.scene{position:absolute;inset:0;opacity:0;animation:scene var(--cycle) linear infinite both;animation-delay:var(--d)}
+.scene img{width:100%;height:100%;object-fit:cover;object-position:var(--op,50% 50%);
+  transform-origin:50% 50%;will-change:transform;
+  animation:camera var(--cycle) linear infinite both;animation-delay:var(--d)}
+.s1{--d:0s;  --s0:1.20;--x0:2.2%; --y0:1.2%; --s1:1.06;--x1:-2.4%;--y1:-.6%;--op:68% 50%}
+.s2{--d:6s;  --s0:1.06;--x0:-2.2%;--y0:1.4%; --s1:1.18;--x1:2.4%; --y1:-2%;  --op:66% 50%}
+.s3{--d:12s; --s0:1.18;--x0:3%;   --y0:2.2%; --s1:1.06;--x1:-.6%; --y1:-1.6%;--op:30% 50%}
+.s4{--d:18s; --s0:1.06;--x0:0%;   --y0:-2%;  --s1:1.17;--x1:0%;   --y1:1.4%; --op:50% 50%}
+.s5{--d:24s; --s0:1.24;--x0:0%;   --y0:3.4%; --s1:1.06;--x1:0%;   --y1:-1.8%;--op:50% 50%}
+/* chaque plan : fondu entrant, plan tenu, fondu sortant sous le plan suivant */
+@keyframes scene{0%{opacity:0}4%{opacity:1}24%{opacity:1}26%{opacity:0}100%{opacity:0}}
+@keyframes camera{
+  0%{transform:scale(var(--s0)) translate(var(--x0),var(--y0))}
+  26%{transform:scale(var(--s1)) translate(var(--x1),var(--y1))}
+  100%{transform:scale(var(--s1)) translate(var(--x1),var(--y1))}}
+
+/* surcouches : vignette, dégradé bas, reflet qui balaie, éclats lumineux */
+.vignette{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.38) 100%),
+             linear-gradient(to top,rgba(0,0,0,.62) 0%,rgba(0,0,0,.18) 32%,transparent 55%),
+             linear-gradient(to bottom,rgba(0,0,0,.28) 0%,transparent 22%)}
+.sweep{position:absolute;inset:-20%;z-index:3;pointer-events:none;mix-blend-mode:soft-light;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);
+  transform:translateX(-70%);animation:sweep 6s cubic-bezier(.5,0,.3,1) infinite 1.5s}
+@keyframes sweep{0%{transform:translateX(-70%)}45%,100%{transform:translateX(70%)}}
+.glints{position:absolute;inset:0;z-index:3;pointer-events:none}
+.glints i{position:absolute;left:var(--l);top:var(--t);width:var(--z,6px);height:var(--z,6px);border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.7) 30%,rgba(255,255,255,0) 70%);
+  box-shadow:0 0 18px 4px rgba(255,255,255,.35);opacity:0;mix-blend-mode:screen;
+  animation:glint var(--dur,9s) ease-in-out infinite var(--dl,0s)}
+@keyframes glint{0%{opacity:0;transform:translate(0,0) scale(.6)}
+  20%{opacity:.9}50%{opacity:.35;transform:translate(var(--dx,18px),-26px) scale(1)}
+  75%{opacity:.8}100%{opacity:0;transform:translate(calc(var(--dx,18px) * 2),-56px) scale(.6)}}
+
+.hud{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:space-between;
+  padding:clamp(16px,3vw,32px);color:#fff;pointer-events:none;text-align:left}
+.where{align-self:flex-start;display:inline-grid;align-items:center;padding:8px 14px 8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);font-size:13px;font-weight:600;letter-spacing:.01em}
+.where > *{grid-area:1/1}
+.where .live{display:inline-flex;align-items:center;gap:8px}
+.where .live::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.cap{opacity:0;padding-left:15px;white-space:nowrap;animation:cap var(--cycle) linear infinite both;animation-delay:var(--d)}
+@keyframes cap{0%,4%{opacity:0;transform:translateY(5px)}7%{opacity:1;transform:none}21%{opacity:1;transform:none}23%,100%{opacity:0;transform:translateY(-5px)}}
+.where .ghostcap{visibility:hidden;padding-left:15px;white-space:nowrap}
+.bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.word{margin:0;font-weight:900;font-size:clamp(46px,10vw,132px);letter-spacing:-.06em;line-height:.85;
+  text-shadow:0 10px 40px rgba(0,0,0,.35);animation:word-in 1.6s cubic-bezier(.2,.7,.2,1) .5s both}
+@keyframes word-in{from{opacity:0;letter-spacing:.02em;filter:blur(12px);transform:translateY(12px)}to{opacity:1;letter-spacing:-.06em;filter:blur(0);transform:none}}
+.word-sub{display:block;margin-top:12px;font-size:clamp(13px,1.5vw,16px);font-weight:500;letter-spacing:0;opacity:.85;text-shadow:none;
+  animation:word-in-sub 1.2s ease 1.3s both}
+@keyframes word-in-sub{from{opacity:0}to{opacity:.85}}
+.bars{display:flex;gap:6px;padding-bottom:6px}
+.bars span{position:relative;width:clamp(18px,3vw,34px);height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.bars span::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:0 50%;transform:scaleX(0);
+  animation:bar var(--cycle) linear infinite both;animation-delay:var(--d)}
+@keyframes bar{0%{transform:scaleX(0);opacity:1}22%{transform:scaleX(1);opacity:1}25%,100%{transform:scaleX(1);opacity:0}}
+
+/* ---------- Sections ---------- */
+section.block{padding:96px 0 0}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h2{font-size:clamp(30px,4.6vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.04;margin:0}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;margin-bottom:36px}
+.head p{margin:0;color:var(--muted);max-width:420px}
+
+/* Téléchargement */
+.btns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.btns{grid-template-columns:repeat(2,minmax(0,1fr))}}
+button,a.btn{font-family:var(--font);font-size:17px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:60px;padding:16px 24px;border-radius:999px;cursor:pointer;text-decoration:none;text-align:center;
+  background:var(--ink);color:var(--on-ink);border:1px solid var(--ink);
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease,border-color .2s ease,opacity .2s ease}
+button svg,a.btn svg{width:20px;height:20px;flex:none}
+button:hover,a.btn:hover{transform:translateY(-2px);box-shadow:0 14px 28px -14px rgba(0,0,0,.55)}
+button.alt,a.btn.alt{background:var(--bg);color:var(--ink);border-color:var(--line-strong)}
+button.alt:hover,a.btn.alt:hover{border-color:var(--ink);box-shadow:0 14px 28px -18px rgba(0,0,0,.35)}
+button:active,a.btn:active{transform:scale(.98)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+button:disabled{opacity:.45;cursor:progress;transform:none;box-shadow:none}
+#msg{min-height:1.5em;margin:16px 0 0;color:var(--muted);font-size:15px;text-align:center}
+
+/* Montage vidéo en tête de page */
+.hero-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:var(--screen)}
+.hero-vid .vignette{z-index:1}
+.capv{padding-left:15px;white-space:nowrap;transition:opacity .35s}
+#hero-bars span::after{animation:none;transform:scaleX(var(--p,0));transition:transform .25s linear}
+.sound{position:absolute;top:16px;right:16px;z-index:6;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;
+  background:rgba(255,255,255,.92);color:#0a0a0a;border:0;font:600 14px/1 var(--font);cursor:pointer;box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+.sound svg{width:18px;height:18px}
+.sound .w{display:none}
+.sound[aria-pressed="true"] .w{display:inline}
+.sound[aria-pressed="true"] .x{display:none}
+@media (max-width:760px){.sound{top:10px;right:10px;padding:8px 12px;font-size:13px}}
+
+/* Les maps en vidéo */
+.maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.map{position:relative;margin:0;border-radius:var(--radius-lg);overflow:hidden;background:var(--screen);aspect-ratio:16/9;box-shadow:0 22px 50px -32px rgba(0,0,0,.6)}
+.map video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.map figcaption{position:absolute;left:0;right:0;bottom:0;padding:44px 20px 16px;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0));pointer-events:none}
+.map figcaption b{display:block;font-size:19px;font-weight:700;letter-spacing:-.02em}
+.map figcaption span{font-size:14px;opacity:.82}
+@media (max-width:760px){.maps{grid-template-columns:1fr;gap:10px}}
+
+/* Fonctionnalités */
+.features{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.feat{border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px 20px 24px;background:var(--bg);
+  transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease}
+.feat:hover{border-color:var(--ink);transform:translateY(-3px);box-shadow:0 18px 40px -26px rgba(0,0,0,.4)}
+.feat .ico{width:42px;height:42px;border-radius:12px;background:var(--surface);display:grid;place-items:center;margin-bottom:18px;transition:background .25s,color .25s}
+.feat:hover .ico{background:var(--ink);color:var(--on-ink)}
+.feat svg{width:22px;height:22px}
+.feat h3{margin:0 0 6px;font-size:17px;font-weight:700;letter-spacing:-.02em}
+.feat p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.51}
+
+/* Personnage */
+.perso{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;border:1px solid var(--line);border-radius:var(--radius-xl);
+  padding:28px 32px;background:var(--surface)}
+.perso-ico{width:72px;height:72px;border-radius:20px;background:var(--ink);display:grid;place-items:center}
+.perso-ico svg{width:40px;height:40px}
+.perso h2{font-size:clamp(24px,3vw,30px);margin:0 0 6px}
+.perso p{margin:0;color:var(--muted);font-size:16px;max-width:520px}
+.perso a.btn{min-height:52px;padding:12px 24px;font-size:16px}
+
+/* Étapes d'installation */
+.howto{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.steps{border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px 24px 28px;background:var(--bg)}
+.steps h3{display:flex;align-items:center;gap:10px;margin:0 0 20px;font-size:18px;font-weight:700;letter-spacing:-.02em}
+.steps h3 svg{width:20px;height:20px}
+ol{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:14px;color:var(--muted);font-size:15px;line-height:1.5}
+ol li{counter-increment:s;display:grid;grid-template-columns:26px 1fr;gap:12px}
+ol li::before{content:counter(s);width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);color:var(--ink);
+  font-size:12.5px;font-weight:700;display:grid;place-items:center;margin-top:-1px}
+ol b{color:var(--ink);font-weight:600}
+
+/* Nouveautés */
+.news{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;border-top:1px solid var(--ink);padding-top:28px}
+.news .label{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--on-ink);white-space:nowrap}
+.meta{font-size:15px;color:var(--ink-2);margin:0;line-height:1.6;max-width:820px}
+
+footer{margin:96px 0 0;border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:24px;padding-bottom:40px;color:var(--muted);font-size:14px}
+footer .brand{font-size:16px;color:var(--ink)}
+footer .mark{width:22px;height:22px;border-radius:6px}
+footer .mark svg{width:13px;height:13px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1020px){
+  .features{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .howto{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .hero{padding-top:36px}
+  h1 .dim{display:block}
+  .stage{margin-top:36px}
+  .window{aspect-ratio:4/5;max-height:none;border-radius:26px}
+  .btns{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr;gap:10px}
+  .feat{display:grid;grid-template-columns:42px 1fr;column-gap:16px;padding:18px}
+  .feat .ico{grid-row:span 2;margin:0}
+  .perso{grid-template-columns:1fr;text-align:left;padding:24px}
+  .perso a.btn{justify-self:start}
+  section.block{padding-top:72px}
+  .news{grid-template-columns:1fr;gap:14px}
+  .news .label{justify-self:start}
+  .bars{display:none}
+  .head{margin-bottom:24px}
+}
+@media (max-width:380px){
+  .top .pill{padding:8px 14px}
+}
+
+/* ---------- Mouvement réduit : image fixe ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .scene{opacity:0}
+  .scene.s2{opacity:1}
+  .scene img{transform:scale(1.04)}
+  .cap{opacity:0}
+  .cap.c2{opacity:1}
+  .glints,.sweep,.bars{display:none}
+}
+
+.langs{display:flex;gap:4px;margin-left:auto;margin-right:8px}
+.langs button{min-height:0;padding:6px 10px;font-size:13px;font-weight:700;border-radius:999px;background:transparent;color:var(--muted);border:1px solid transparent;letter-spacing:.02em}
+.langs button:hover{transform:none;box-shadow:none;color:var(--ink)}
+.langs button[aria-pressed="true"]{color:var(--ink);border-color:var(--line-strong);background:var(--bg)}
+@media (max-width:520px){.top .pill span{display:none}.top .pill{padding:9px 12px}.langs button{padding:6px 7px}}
+[dir="rtl"] .sound{right:auto;left:16px}
+@media (max-width:760px){[dir="rtl"] .sound{left:10px}}
+[dir="rtl"] .hud,[dir="rtl"] .feat,[dir="rtl"] .steps{text-align:right}
+.ghost-pill{background:transparent!important;color:inherit!important;border:1px solid currentColor;margin-right:6px}
+@media(max-width:480px){.ghost-pill{margin-right:0}nav.langs{gap:0!important}nav.langs button{padding-left:5px!important;padding-right:5px!important;min-width:0!important}}
+.sitetabs{display:flex;gap:6px;max-width:980px;margin:18px auto 0;padding:5px;background:var(--surface,#f6f6f7);border-radius:999px;overflow-x:auto;scrollbar-width:none}
+.sitetabs a{flex:1 1 0;min-width:max-content;text-align:center;font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;color:var(--ink-2);border-radius:999px;padding:11px 14px}
+.sitetabs a.on{background:var(--ink);color:var(--on-ink)}
+@media(max-width:1012px){.sitetabs{margin-left:16px;margin-right:16px}}
+@media(max-width:520px){.sitetabs a{font-size:13px;padding:10px 10px}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap">
-  <a class="brand" href="#"><span class="mark">C</span>Creator</a>
-  <div class="langs"><button data-l="fr">FR</button><button data-l="en">EN</button></div>
-</div></header>
 
-<main class="wrap">
-  <nav class="tabs" role="tablist">
-    <button data-tab="compte" data-t="t_compte">Créer un compte</button>
-    <button data-tab="jeu" data-t="t_jeu">Télécharger le jeu</button>
-    <button data-tab="joueurs" data-t="t_joueurs">Joueurs</button>
-    <button data-tab="profil" data-t="t_profil">Profil du joueur</button>
-  </nav>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#haut" aria-label="Creator, haut de page">
+      <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg></span>
+      Creator
+    </a>
+    <nav class="langs" aria-label="Language">
+      <button type="button" data-lang="en" lang="en">EN</button>
+      <button type="button" data-lang="fr" lang="fr">FR</button>
+      <button type="button" data-lang="he" lang="he">עב</button>
+      <button type="button" data-lang="es" lang="es">ES</button>
+    </nav>
+    <a class="pill ghost-pill" href="espace.html#compte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span data-i18n="acct_top">My account</span></a>
+    <a class="pill" href="#telecharger">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+      <span data-i18n="dl_top">Download</span>
+    </a>
+  </div>
+</header>
+<nav class="sitetabs" aria-label="Site">
+  <a class="on" href="./" data-i18n="nav_home">Home</a>
+  <a href="espace.html#compte" data-i18n="nav_acct">Create an account</a>
+  <a href="espace.html#joueurs" data-i18n="nav_players">Players</a>
+  <a href="espace.html#jeu" data-i18n="nav_pics">Pictures &amp; FAQ</a>
+  <a href="espace.html#profil" data-i18n="nav_prof">Player profile</a>
+</nav>
 
-  <!-- ================= Compte ================= -->
-  <section class="tab" id="compte">
-    <h1 data-t="c_h1">Ton compte Creator</h1>
-    <p class="lede" data-t="c_lede">Le même compte sert dans le jeu (Android, PC, Mac, iPhone) et sur ce site : profil, forum, et bientôt ta progression.</p>
-    <div class="grid2">
-      <form class="card" id="f-signup">
-        <h2 style="margin-top:0" data-t="c_new">Je m'inscris</h2>
-        <label for="su-pseudo" data-t="pseudo">Pseudo (ce que les autres voient)</label>
-        <input id="su-pseudo" maxlength="20" required autocomplete="nickname">
-        <label for="su-mail" data-t="mail">E-mail</label>
-        <input id="su-mail" type="email" required autocomplete="email">
-        <label for="su-pass" data-t="pass">Mot de passe (6 caractères minimum)</label>
-        <input id="su-pass" type="password" minlength="6" required autocomplete="new-password">
-        <button class="btn" type="submit" data-t="c_create">Créer mon compte</button>
-        <div class="msg" id="su-msg"></div>
-      </form>
-      <form class="card" id="f-login">
-        <h2 style="margin-top:0" data-t="c_old">J'ai déjà un compte</h2>
-        <label for="li-mail" data-t="mail">E-mail</label>
-        <input id="li-mail" type="email" required autocomplete="email">
-        <label for="li-pass" data-t="pass2">Mot de passe</label>
-        <input id="li-pass" type="password" required autocomplete="current-password">
-        <button class="btn" type="submit" data-t="c_login">Me connecter</button>
-        <div class="msg" id="li-msg"></div>
-      </form>
+<main id="haut">
+  <div class="wrap hero">
+    <p class="tag" data-i18n="tag">Version 1.74 · Android, PC and iPhone</p>
+    <h1 data-i18n="h1">Your city. Your life. <span class="dim">Your world.</span></h1>
+    <p class="lede" data-i18n="lede">From Hong Kong to Paris, a living city is waiting for you. Build, drive, call your friends and live your life, alone or together.</p>
+    <div class="cta">
+      <a class="pill" href="#telecharger" data-i18n="cta1">Download Creator</a>
+      <a class="pill ghost" href="#nouveautes" data-i18n="cta2">What's new</a>
+    </div>
+
+    <div class="stage">
+      <div class="window hero-vid">
+        <video id="hero-video" src="videos/montage.mp4" poster="videos/montage.jpg" autoplay muted loop playsinline preload="auto" aria-label="Survol des maps de Creator : Hong Kong la nuit, l'aéroport, Paris et la tour Eiffel, Tel Aviv, la Néo-Cité et la forêt"></video>
+        <div class="vignette"></div>
+        <div class="hud">
+          <div class="where">
+            <span class="live"></span>
+            <span class="capv" id="hero-cap">Hong Kong · night</span>
+          </div>
+          <div class="bottom">
+            <p class="word">Creator<span class="word-sub" data-i18n="word_sub">Your city is waiting.</span></p>
+            <div class="bars" id="hero-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <button class="sound" id="hero-sound" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M17 9l5 6M22 9l-5 6"/></svg>
+          <span data-i18n="sound_on">Turn sound on</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" id="quoi" aria-labelledby="quoi-t">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="eyebrow" data-i18n="q_eye">What is Creator?</p>
+          <h2 id="quoi-t" data-i18n="q_h">A virtual world for real connections.</h2>
+        </div>
+        <p data-i18n="q_p">Friendship, love or business: grow your connections all over the world and create your universe.</p>
+      </div>
     </div>
   </section>
 
-  <!-- ================= Jeu ================= -->
-  <section class="tab" id="jeu">
-    <h1 data-t="j_h1">Télécharger Creator</h1>
-    <p class="lede" data-t="j_lede">Une ville vivante de Hong Kong à Paris et Tel Aviv : construis, conduis, appelle tes amis et vis ta vie.</p>
-    <div class="hero-v">
-      <video id="hero" src="videos/montage.mp4" poster="videos/montage.jpg" autoplay muted loop playsinline preload="metadata"></video>
-      <button id="hero-sound" data-t="sound">Activer le son</button>
+  <section class="block" id="telecharger" aria-labelledby="dl-t">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="eyebrow" data-i18n="d_eye">Download</p>
+          <h2 id="dl-t" data-i18n="d_h">Play anywhere.</h2>
+        </div>
+        <p data-i18n="d_p">Android, Windows PC, Mac or iPhone: pick your platform, setup takes a minute.</p>
+      </div>
+      <div class="btns">
+        <a id="dl" class="btn" href="https://haimassouline2011-jpg.github.io/creator/telecharger/creator-1.74.apk" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Android · APK</a>
+        <a id="pc" class="btn alt" href="https://haimassouline2011-jpg.github.io/creator/telecharger/creator-1.74-pc.zip" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span data-i18n="b_pc">Windows PC</span></a>
+        <a id="mac" class="btn alt" href="https://haimassouline2011-jpg.github.io/creator/telecharger/creator-1.74-mac.zip" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M1.5 19.5h21"/></svg><span data-i18n="b_mac">Mac</span></a>
+        <a id="ios" class="btn alt" href="https://haimassouline2011-jpg.github.io/creator/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><span data-i18n="b_ios">iPhone · play in Safari</span></a>
+      </div>
+      <p id="msg" role="status"></p>
     </div>
-    <div class="dl">
-      <a id="dl-android" href="#"><b>Android</b><span data-t="j_apk">Fichier APK</span></a>
-      <a id="dl-pc" href="#"><b>PC Windows</b><span data-t="j_zip">Fichier ZIP</span></a>
-      <a id="dl-mac" href="#"><b>Mac</b><span data-t="j_zip">Fichier ZIP</span></a>
-      <a href="../" target="_blank" rel="noopener"><b>iPhone · Safari</b><span data-t="j_web">Jouer dans le navigateur</span></a>
-    </div>
-    <h2 data-t="pics">Images du jeu</h2>
-    <div class="gal" id="gal"></div>
-    <h2 data-t="maps">Les maps en vidéo</h2>
-    <div class="maps" id="maps"></div>
-    <h2 data-t="news">Nouveautés</h2>
-    <ul class="news" id="news"></ul>
-    <h2 data-t="faq">Questions fréquentes</h2>
-    <div id="faq"></div>
   </section>
 
-  <!-- ================= Profil ================= -->
-  <section class="tab" id="joueurs">
-    <h1 data-t="w_h1">Les joueurs</h1>
-    <p class="lede" data-t="w_lede">Tous les inscrits et le classement. Les chiffres viennent du jeu et se mettent à jour quand le joueur est en ligne.</p>
-    <div class="stats">
-      <div class="stat"><b id="st-all">–</b><span data-t="w_all">joueurs inscrits</span></div>
-      <div class="stat"><b id="st-day">–</b><span data-t="w_day">vus aujourd'hui</span></div>
-      <div class="stat"><b id="st-prem">–</b><span data-t="w_prem">joueurs Premium</span></div>
-    </div>
-    <h2 data-t="w_rank">Classement</h2>
-    <div class="cats" id="boards"></div>
-    <ol class="rank" id="rank"></ol>
-    <h2 data-t="w_list">Joueurs inscrits</h2>
-    <div class="players" id="players"></div>
-  </section>
-
-  <section class="tab" id="profil">
-    <div id="p-out">
-      <h1 data-t="p_h1">Profil du joueur</h1>
-      <p class="lede" data-t="p_need">Connecte-toi pour voir ton profil et écrire sur le forum.</p>
-      <button class="btn" data-go="compte" data-t="p_go">Me connecter ou m'inscrire</button>
-    </div>
-    <div id="p-in" hidden>
-      <div class="card me">
-        <div class="avatar" id="p-av">C</div>
-        <div class="who"><b id="p-name">…</b><span id="p-mail"></span><br><span id="p-since"></span></div>
-        <div style="margin-left:auto" class="row">
-          <button class="btn ghost small" id="p-out-btn" data-t="logout">Se déconnecter</button>
+  <section class="block" aria-labelledby="feat-t">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="eyebrow" data-i18n="f_eye">In the game</p>
+          <h2 id="feat-t" data-i18n="f_h">A whole city to live in.</h2>
         </div>
       </div>
-      <form class="card" id="f-pseudo" style="margin-top:14px">
-        <label for="p-pseudo" data-t="p_change">Changer mon pseudo</label>
-        <div class="row"><input id="p-pseudo" maxlength="20" style="flex:1;min-width:180px">
-          <button class="btn small" type="submit" data-t="save">Enregistrer</button></div>
-        <div class="msg" id="p-msg"></div>
-      </form>
+      <div class="features">
+        <article class="feat">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9s1.2-6.4 3.8-9z"/></svg></div>
+          <h3 data-i18n="f1t">World cities</h3>
+          <p data-i18n="f1p">Hong Kong, Paris, an international airport and neighbourhoods to explore.</p>
+        </article>
+        <article class="feat">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.8 3.2-6 6.5-6s5.9 2.2 6.5 6"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.2c2.7.1 4.5 2 5 5"/></svg></div>
+          <h3 data-i18n="f2t">Multiplayer</h3>
+          <p data-i18n="f2p">Your player account, and your friends online in the same city.</p>
+        </article>
+        <article class="feat">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6M3 21h18"/></svg></div>
+          <h3 data-i18n="f3t">Building</h3>
+          <p data-i18n="f3p">Build, move in and settle down in the city's buildings.</p>
+        </article>
+        <article class="feat">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V12l2-5h10l2 5v4z"/><path d="M5 12h14"/><circle cx="8" cy="16.5" r="1.6"/><circle cx="16" cy="16.5" r="1.6"/><path d="M5 16v3M19 16v3"/></svg></div>
+          <h3 data-i18n="f4t">Cars &amp; helicopters</h3>
+          <p data-i18n="f4p">Drive through the streets or take off from the rooftops.</p>
+        </article>
+        <article class="feat">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></div>
+          <h3 data-i18n="f5t">Phone &amp; voice</h3>
+          <p data-i18n="f5p">Calls, messages and a Talk button for voice chat.</p>
+        </article>
+      </div>
     </div>
-
-    <h2 data-t="forum">Forum</h2>
-    <div class="cats" id="cats"></div>
-    <form class="card" id="f-post" hidden>
-      <label for="po-cat" data-t="cat">Catégorie</label>
-      <select id="po-cat"></select>
-      <label for="po-title" data-t="title">Titre</label>
-      <input id="po-title" maxlength="120" required>
-      <label for="po-text" data-t="text">Message</label>
-      <textarea id="po-text" maxlength="4000" required></textarea>
-      <button class="btn" type="submit" data-t="publish">Publier</button>
-      <div class="msg" id="po-msg"></div>
-    </form>
-    <div id="posts"></div>
   </section>
 
-  <div class="foot" data-t="foot">Creator · un jeu d'Alain. Le forum est public : reste poli et ne partage jamais ton mot de passe.</div>
+  <section class="block" id="maps" aria-labelledby="maps-t">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="eyebrow" data-i18n="m_eye">The maps</p>
+          <h2 id="maps-t" data-i18n="m_h">Tour every map on video.</h2>
+        </div>
+      </div>
+      <div class="maps">
+        <figure class="map"><video src="videos/telaviv.mp4" poster="videos/telaviv.jpg" muted loop playsinline preload="none" aria-label="Survol de la plage de Tel Aviv"></video><figcaption><b data-i18n="m5t">Tel Aviv</b><span data-i18n="m5">The beach, the promenade and its restaurants</span></figcaption></figure>
+        <figure class="map"><video src="videos/neocite.mp4" poster="videos/neocite.jpg" muted loop playsinline preload="none" aria-label="Survol de la Néo-Cité"></video><figcaption><b data-i18n="m6t">Neo City</b><span data-i18n="m6">The architects' futuristic island</span></figcaption></figure>
+        <figure class="map"><video src="videos/paris.mp4" poster="videos/paris.jpg" muted loop playsinline preload="none" aria-label="Survol de Paris et de la tour Eiffel"></video><figcaption><b data-i18n="m3t">Paris</b><span data-i18n="m3">The new Eiffel Tower lit up at sunset</span></figcaption></figure>
+        <figure class="map"><video src="videos/hongkong.mp4" poster="videos/hongkong.jpg" muted loop playsinline preload="none" aria-label="Survol de Hong Kong la nuit"></video><figcaption><b>Hong Kong</b><span data-i18n="m1">The neon city and its seafront towers</span></figcaption></figure>
+        <figure class="map"><video src="videos/aeroport.mp4" poster="videos/aeroport.jpg" muted loop playsinline preload="none" aria-label="Survol de l'aéroport"></video><figcaption><b data-i18n="m2t">International airport</b><span data-i18n="m2">The road over the sea, the terminal and the runways</span></figcaption></figure>
+        <figure class="map"><video src="videos/foret.mp4" poster="videos/foret.jpg" muted loop playsinline preload="none" aria-label="Balade dans la forêt et le verger"></video><figcaption><b data-i18n="m4t">Forest and orchard</b><span data-i18n="m4">Trees in the wind and fruit to pick</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="perso-t">
+    <div class="wrap">
+      <div class="perso">
+        <div class="perso-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="17" r="8.5" fill="#fff"/><path d="M8 43c1.2-9.6 7.8-14.5 16-14.5S38.8 33.4 40 43z" fill="#fff"/></svg></div>
+        <div>
+          <h2 id="perso-t" data-i18n="p_h">Create your character</h2>
+          <p data-i18n="p_p">Choose your player name, country, languages and profile photo before entering the city.</p>
+        </div>
+        <a class="btn" href="https://claude.ai/artifact/PLKfAjRAyRPg3tUPtVssFP" target="_blank" rel="noopener"><span data-i18n="p_b">Create my player</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="howto-t">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="eyebrow" data-i18n="h_eye">Setup</p>
+          <h2 id="howto-t" data-i18n="h_h">Ready in three steps.</h2>
+        </div>
+      </div>
+      <div class="howto">
+        <div class="steps">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Android</h3>
+          <ol>
+            <li><span data-i18n="a1">Tap <b>Android · APK</b> and accept the download.</span></li>
+            <li><span data-i18n="a2">Open <b>creator-1.74.apk</b> from your downloads.</span></li>
+            <li><span data-i18n="a3">Allow installing unknown apps if Android asks, then install.</span></li>
+          </ol>
+        </div>
+        <div class="steps">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span data-i18n="h_pc">Windows PC</span></h3>
+          <ol>
+            <li><span data-i18n="w1">On a PC, click <b>Windows PC</b> and save <b>creator-1.74-pc.zip</b>.</span></li>
+            <li><span data-i18n="w2">Right-click the file, choose <b>Extract All</b>, then double-click <b>Creator.exe</b>.</span></li>
+            <li><span data-i18n="w3">If Windows shows “Windows protected your PC”, click <b>More info</b> then <b>Run anyway</b>.</span></li>
+            <li><span data-i18n="w4">Keyboard: <b>W A S D</b> or the arrow keys to move, <b>Space</b> to jump, the mouse for the buttons.</span></li>
+          </ol>
+        </div>
+        <div class="steps">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M1.5 19.5h21"/></svg><span data-i18n="h_mac">Mac</span></h3>
+          <ol>
+            <li><span data-i18n="k1">Click <b>Mac</b> and open <b>creator-1.74-mac.zip</b>: you get <b>Creator.app</b>.</span></li>
+            <li><span data-i18n="k2">Drag <b>Creator.app</b> into <b>Applications</b>.</span></li>
+            <li><span data-i18n="k3">The first time, macOS blocks it: open <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>.</span></li>
+          </ol>
+        </div>
+        <div class="steps">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>iPhone</h3>
+          <ol>
+            <li><span data-i18n="i1">On iPhone, tap <b>iPhone · play in Safari</b>: the game starts right away, nothing to install.</span></li>
+            <li><span data-i18n="i2">To keep it like an app: Safari's <b>Share</b> button, then <b>Add to Home Screen</b>.</span></li>
+            <li><span data-i18n="i3">Turn the phone sideways. The first load takes a little while (8 MB).</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="nouveautes" aria-label="Nouveautés">
+    <div class="wrap">
+      <div class="news">
+        <span class="label" data-i18n="n_lab">New</span>
+        <p class="meta" data-i18n="news">New in 1.74: the giant World Market and city malls with lifts and food courts, 30 restaurant dishes to eat or take away, buses, metro and trains with real stops, a cruise ship touring the islands (pool, casino, fishing, your own cabin), voice messages on the phone, a face and body editor, bigger buttons on phones with a full-screen option, and at night your aura and the shop windows light up the sidewalk. 1.72: treasure chests (wood, leather, gold, diamond) that are yours for 2 minutes, coins on the ground or straight into your helicopter, your character's head follows the mouse, and no more police for missed shots or for taking down bad guys. 1.71: 30 spinning card collections (fire, water, plants, wind, moon, sun…) and 3D items dropped by bad guys: display pieces, wearables (crown, wings, halo) and gemstones. 1.70: when you aim, good civilians glow green and bad guys (thugs, dealers, hostile aliens, monsters) glow red. 1.69: a target sight showing where helicopter shots land, and a grid with a ghost cube showing where your next block goes. 1.68: a black parachute opens with Space when you fall, and long falls hurt. Also in 1.67: realistic characters for everyone (change clothes, shoes, hair, beard, watch, bag, glasses in Appearance), 5 motorbikes (sport, roadster, chopper, cross, scooter), a helicopter with machine gun and missiles, and new weapons: grenade, RPG and Titan launcher.</p>
+      </div>
+    </div>
+  </section>
 </main>
-<div class="lb" id="lb"><img alt=""></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<footer>
+  <div class="wrap">
+    <span class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg></span>Creator</span>
+    <a href="#haut" data-i18n="top_link">Back to top ↑</a>
+  </div>
+</footer>
+
 <script>
-const VERSION = "1.74";
-const SB_URL = "https://kvdokbkfbqhguymnzacd.supabase.co";
-const SB_KEY = "sb_publishable__vblmShGEsqIYMPkeaqdcw_Eb0pVxy2";   // clé publique (la même que dans le jeu)
-const BASE = "https://haimassouline2011-jpg.github.io/creator/telecharger/";
-const CATS = ["general","aide","idees","bugs","echanges","clans"];
-
-const T = {
- fr:{t_compte:"Créer un compte",t_jeu:"Télécharger le jeu",t_profil:"Profil du joueur",
-  c_h1:"Ton compte Creator",c_lede:"Le même compte sert dans le jeu (Android, PC, Mac, iPhone) et sur ce site : profil, forum, et bientôt ta progression.",
-  c_new:"Je m'inscris",pseudo:"Pseudo (ce que les autres voient)",mail:"E-mail",pass:"Mot de passe (6 caractères minimum)",pass2:"Mot de passe",
-  c_create:"Créer mon compte",c_old:"J'ai déjà un compte",c_login:"Me connecter",
-  j_h1:"Télécharger Creator",j_lede:"Une ville vivante de Hong Kong à Paris et Tel Aviv : construis, conduis, appelle tes amis et vis ta vie.",
-  j_apk:"Fichier APK",j_zip:"Fichier ZIP",j_web:"Jouer dans le navigateur",news:"Nouveautés",faq:"Questions fréquentes",
-  p_h1:"Profil du joueur",p_need:"Connecte-toi pour voir ton profil et écrire sur le forum.",p_go:"Me connecter ou m'inscrire",
-  logout:"Se déconnecter",p_change:"Changer mon pseudo",save:"Enregistrer",forum:"Forum",cat:"Catégorie",title:"Titre",text:"Message",publish:"Publier",
-  foot:"Creator · un jeu d'Alain. Le forum est public : reste poli et ne partage jamais ton mot de passe.",
-  all:"Tout",general:"Général",aide:"Aide",idees:"Idées",bugs:"Bugs",echanges:"Échanges",clans:"Clans",
-  since:"Membre depuis le ",created:"Compte créé ! Tu peux jouer avec ce compte.",check:"Compte créé. Ouvre l'e-mail de confirmation, puis connecte-toi.",
-  welcome:"Bienvenue ",saved:"Pseudo enregistré.",posted:"Message publié.",reply:"Répondre",send:"Envoyer",
-  empty:"Pas encore de message ici. Lance la discussion !",soon:"Le forum ouvre très bientôt.",offline:"Impossible de joindre le serveur. Réessaie dans un instant.",
-  sound:"Activer le son",mute:"Couper le son",maps:"Les maps en vidéo",pics:"Images du jeu",
-  t_joueurs:"Joueurs",w_h1:"Les joueurs",w_lede:"Tous les inscrits et le classement. Les chiffres viennent du jeu et se mettent à jour quand le joueur est en ligne.",
-  w_all:"joueurs inscrits",w_day:"vus aujourd'hui",w_prem:"joueurs Premium",w_rank:"Classement",w_list:"Joueurs inscrits",
-  b_niveau:"Niveau",b_cartes:"Cartes",b_tues:"Ennemis",b_maison:"Maison",b_note:"Note",
-  u_niveau:"Nv ",u_cartes:" cartes",u_tues:" tués",u_maison:" px",u_note:" ★",
-  nobody:"Aucun joueur pour le moment. Crée ton compte et sois le premier !",lvl:"Niveau ",seen:"Vu le ",online:"En ligne",you:"toi",
-  needavis:"Il faut au moins 3 avis pour être classé à la note.",
-  loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…"},
- en:{t_compte:"Create an account",t_jeu:"Download the game",t_profil:"Player profile",
-  c_h1:"Your Creator account",c_lede:"The same account works in the game (Android, PC, Mac, iPhone) and on this site: profile, forum and soon your progress.",
-  c_new:"Sign up",pseudo:"Nickname (what others see)",mail:"Email",pass:"Password (at least 6 characters)",pass2:"Password",
-  c_create:"Create my account",c_old:"I already have an account",c_login:"Log in",
-  j_h1:"Download Creator",j_lede:"A living city from Hong Kong to Paris and Tel Aviv: build, drive, call your friends and live your life.",
-  j_apk:"APK file",j_zip:"ZIP file",j_web:"Play in the browser",news:"What's new",faq:"FAQ",
-  p_h1:"Player profile",p_need:"Log in to see your profile and post on the forum.",p_go:"Log in or sign up",
-  logout:"Log out",p_change:"Change my nickname",save:"Save",forum:"Forum",cat:"Category",title:"Title",text:"Message",publish:"Post",
-  foot:"Creator · a game by Alain. The forum is public: be kind and never share your password.",
-  all:"All",general:"General",aide:"Help",idees:"Ideas",bugs:"Bugs",echanges:"Trading",clans:"Clans",
-  since:"Member since ",created:"Account created! You can play with it.",check:"Account created. Open the confirmation email, then log in.",
-  welcome:"Welcome ",saved:"Nickname saved.",posted:"Message posted.",reply:"Reply",send:"Send",
-  empty:"No messages here yet. Start the conversation!",soon:"The forum opens very soon.",offline:"Can't reach the server. Try again in a moment.",
-  sound:"Turn sound on",mute:"Mute",maps:"The maps on video",pics:"Game pictures",
-  t_joueurs:"Players",w_h1:"The players",w_lede:"Everyone who signed up and the rankings. Numbers come from the game and update while the player is online.",
-  w_all:"registered players",w_day:"seen today",w_prem:"Premium players",w_rank:"Rankings",w_list:"Registered players",
-  b_niveau:"Level",b_cartes:"Cards",b_tues:"Enemies",b_maison:"House",b_note:"Rating",
-  u_niveau:"Lv ",u_cartes:" cards",u_tues:" defeated",u_maison:" px",u_note:" ★",
-  nobody:"No players yet. Create your account and be the first!",lvl:"Level ",seen:"Seen ",online:"Online",you:"you",
-  needavis:"At least 3 reviews are needed to be ranked by rating.",
-  loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…"}
-};
-const NEWS = {
- fr:["1.74 : Classements, quartier des joueurs avec une maison par joueur, Premium avec badge brillant, arme en main visible par les autres, filtre monstres ou stations sur la carte, boss et voyous qui n'attaquent que si on les attaque.",
-     "1.73 : Marché Mondial et marchés de ville, 30 plats de restaurant, bus, métro et train, croisière autour des îles, messages vocaux, éditeur du visage, gros boutons et plein écran sur téléphone, lumière de nuit.",
-     "1.72 : coffres en bois, cuir, or ou diamant, pièces au sol, la tête suit la souris.",
-     "1.71 : 30 collections de cartes à trouver et 30 objets 3D rares.",
-     "Bientôt : le casino géant et de nouvelles voitures."],
- en:["1.74: Rankings, players' district with one house per player, Premium with a shiny badge, weapon in hand visible to others, monsters or stations filter on the map, bosses and thugs only attack if you attack them.",
-     "1.73: World Market and city malls, 30 restaurant dishes, buses, metro and trains, a cruise around the islands, voice messages, face editor, big buttons and full screen on phones, night lights.",
-     "1.72: wood, leather, gold or diamond chests, coins on the ground, your head follows the mouse.",
-     "1.71: 30 card collections to find and 30 rare 3D items.",
-     "Coming soon: the giant casino and new cars."]
-};
-const FAQ = {
- fr:[["Comment installer le jeu sur Android ?","Touche Android, ouvre le fichier APK téléchargé et autorise l'installation d'applications inconnues si ton téléphone le demande."],
-     ["Et sur iPhone ?","Ouvre le jeu dans Safari (bouton iPhone), puis Partager > Sur l'écran d'accueil pour l'avoir en plein écran comme une application."],
-     ["Comment gagner des pixels ?","Ramasse les pièces, pêche, coupe du bois, mine, récolte, vends dans ton magasin, élimine les méchants et les boss, et reviens chaque jour."],
-     ["Les boss m'attaquent-ils ?","Non, tant que tu ne les attaques pas. Touche un boss pour le combattre et gagner un coffre. Pareil pour les voyous."],
-     ["Comment jouer avec mes amis ?","Connecte-toi avec ton compte : tous les joueurs partagent la même ville. Touche un joueur pour l'ajouter en ami, lui écrire ou échanger un objet."],
-     ["J'ai perdu de la vie sans raison","Regarde ta jauge de faim en haut à droite : à zéro, tu perds 2 de vie toutes les 20 secondes. Mange quelque chose."],
-     ["Mon compte est-il le même partout ?","Oui : le même e-mail et mot de passe marchent dans le jeu sur tous les appareils et sur ce site."]],
- en:[["How do I install on Android?","Tap Android, open the downloaded APK and allow installing unknown apps if your phone asks."],
-     ["And on iPhone?","Open the game in Safari (iPhone button), then Share > Add to Home Screen to play full screen like an app."],
-     ["How do I earn pixels?","Pick up coins, fish, chop wood, mine, harvest, sell in your shop, defeat bad guys and bosses, and come back every day."],
-     ["Do bosses attack me?","No, not until you attack them. Hit a boss to fight it and win a chest. Same for thugs."],
-     ["How do I play with friends?","Log in with your account: all players share the same city. Tap a player to add them as a friend, message them or trade an item."],
-     ["I lose health for no reason","Check your hunger bar top right: when empty you lose 2 health every 20 seconds. Eat something."],
-     ["Is my account the same everywhere?","Yes: the same email and password work in the game on every device and on this site."]]
-};
-
-let lang = "fr";
-try{ lang = localStorage.getItem("creator_lang") || (navigator.language||"fr").slice(0,2); }catch(e){}
-if(!T[lang]) lang = "en";
-const t = k => (T[lang] && T[lang][k]) || T.fr[k] || k;
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
-let sb = null, user = null, cat = "all", forumOk = true;
-try{ sb = supabase.createClient(SB_URL, SB_KEY); }catch(e){ sb = null; }
-
-function applyLang(){
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
-  document.querySelectorAll(".langs button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
-  $("#news").innerHTML = NEWS[lang].map(n => "<li>" + esc(n) + "</li>").join("");
-  $("#faq").innerHTML = FAQ[lang].map(q => "<details><summary>" + esc(q[0]) + "</summary><p>" + esc(q[1]) + "</p></details>").join("");
-  $("#po-cat").innerHTML = CATS.map(c => '<option value="' + c + '">' + esc(t(c)) + "</option>").join("");
-  renderMaps(); renderGal(); renderCats(); renderUser(); loadPosts(); renderPlayers();
-  $("#hero-sound").textContent = t($("#hero").muted ? "sound" : "mute");
+// Langues : anglais par défaut, puis français, hébreu et espagnol
+var I18N={"en": {"title": "Download Creator", "dl_top": "Download", "tag": "Version 1.74 · Android, PC, Mac and iPhone", "h1": "Your city. Your life. <span class=\"dim\">Your world.</span>", "lede": "From Hong Kong to Paris, a living city is waiting for you. Build, drive, call your friends and live your life, alone or together.", "cta1": "Download Creator", "cta2": "What's new", "word_sub": "Your city is waiting.", "sound_on": "Turn sound on", "q_eye": "What is Creator?", "q_h": "A virtual world for real connections.", "q_p": "Friendship, love or business: grow your connections all over the world and create your universe.", "d_eye": "Download", "d_h": "Play anywhere.", "d_p": "Android, Windows PC, Mac or iPhone: pick your platform, setup takes a minute.", "b_pc": "Windows PC", "b_ios": "iPhone · play in Safari", "f_eye": "In the game", "f_h": "A whole city to live in.", "f1t": "World cities", "f1p": "Hong Kong, Paris, an international airport and neighbourhoods to explore.", "f2t": "Multiplayer", "f2p": "Your player account, and your friends online in the same city.", "f3t": "Building", "f3p": "Build, move in and settle down in the city's buildings.", "f4t": "Cars &amp; helicopters", "f4p": "Drive through the streets or take off from the rooftops.", "f5t": "Phone &amp; voice", "f5p": "Calls, messages and a Talk button for voice chat.", "m_eye": "The maps", "m_h": "Tour every map on video.", "m1": "The neon city and its seafront towers", "m2t": "International airport", "m2": "The road over the sea, the terminal and the runways", "m3t": "Paris", "m3": "The new Eiffel Tower lit up at sunset", "m4t": "Forest and orchard", "m4": "Trees in the wind and fruit to pick", "p_h": "Create your character", "p_p": "Choose your player name, country, languages and profile photo before entering the city.", "p_b": "Create my player", "h_eye": "Setup", "h_h": "Ready in three steps.", "h_pc": "Windows PC", "a1": "Tap <b>Android · APK</b> and accept the download.", "a2": "Open <b>creator-1.74.apk</b> from your downloads.", "a3": "Allow installing unknown apps if Android asks, then install.", "w1": "On a PC, click <b>Windows PC</b> and save <b>creator-1.74-pc.zip</b>.", "w2": "Right-click the file, choose <b>Extract All</b>, then double-click <b>Creator.exe</b>.", "w3": "If Windows shows “Windows protected your PC”, click <b>More info</b> then <b>Run anyway</b>.", "w4": "Keyboard: <b>W A S D</b> or the arrow keys to move, <b>Space</b> to jump, the mouse for the buttons.", "i1": "On iPhone, tap <b>iPhone · play in Safari</b>: the game starts right away, nothing to install.", "i2": "To keep it like an app: Safari's <b>Share</b> button, then <b>Add to Home Screen</b>.", "i3": "Turn the phone sideways. The first load takes a little while (8 MB).", "n_lab": "New", "news": "New in 1.74: rankings, a players' district with one house per player, Premium with a shiny badge, the weapon in your hand visible to everyone, a monsters or stations filter on the map, bosses and thugs that only fight back, and a players' site with rankings and a forum.", "top_link": "Back to top ↑", "prep": "Getting the download ready…", "noacc": "Download isn't available here. Open this page from your Claude account.", "okzip": "Saved. Extract the zip and run Creator.exe.", "okapk": "Saved. Open the file to install Creator.", "declined": "Download cancelled.", "denied": "Access denied. Allow access to the project files to download.", "badtype": "This file type can't be downloaded from this page.", "notfound": "File not found.", "err": "Download problem (%s). Try again.", "sound_off": "Turn sound off", "cap0": "Hong Kong · night", "cap1": "International airport", "cap2": "Paris · Eiffel Tower", "cap3": "Tel Aviv · beach", "b_mac": "Mac", "h_mac": "Mac", "k1": "Click <b>Mac</b> and open <b>creator-1.74-mac.zip</b>: you get <b>Creator.app</b>.", "k2": "Drag <b>Creator.app</b> into <b>Applications</b>.", "k3": "The first time, macOS blocks it: open <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>.", "m5t": "Tel Aviv", "m5": "The beach, the promenade and its restaurants", "m6t": "Neo City", "m6": "The architects' futuristic island", "cap4": "Tel Aviv · Azrieli towers", "cap5": "Neo City", "cap6": "Forest and orchard", "acct_top": "My account", "nav_home": "Home", "nav_acct": "Create an account", "nav_players": "Players", "nav_pics": "Pictures &amp; FAQ", "nav_prof": "Player profile"}, "fr": {"title": "Télécharger Creator", "dl_top": "Télécharger", "tag": "Version 1.74 · Android, PC, Mac et iPhone", "h1": "Ta ville. Ta vie. <span class=\"dim\">Ton monde.</span>", "lede": "De Hong Kong à Paris, une ville vivante t'attend. Construis, conduis, appelle tes amis et vis ta vie, seul ou à plusieurs.", "cta1": "Télécharger Creator", "cta2": "Nouveautés", "word_sub": "Ta ville t'attend.", "sound_on": "Activer le son", "q_eye": "Creator, c'est quoi ?", "q_h": "Un monde virtuel pour de vraies rencontres.", "q_p": "Amitié, amour ou business : développe tes relations dans le monde entier et crée ton univers.", "d_eye": "Télécharger", "d_h": "Joue où tu veux.", "d_p": "Android, PC Windows, Mac ou iPhone : choisis ta plateforme, l'installation prend une minute.", "b_pc": "PC Windows", "b_ios": "iPhone · jouer dans Safari", "f_eye": "Dans le jeu", "f_h": "Tout une ville à vivre.", "f1t": "Villes du monde", "f1p": "Hong Kong, Paris, un aéroport international et des quartiers à explorer.", "f2t": "Multijoueur", "f2p": "Ton compte joueur, et tes amis en ligne dans la même ville.", "f3t": "Construction", "f3p": "Construis, emménage et installe-toi dans les immeubles de la ville.", "f4t": "Voitures &amp; hélicos", "f4p": "Prends le volant dans les rues ou décolle depuis les toits.", "f5t": "Téléphone &amp; voix", "f5p": "Appels, messages et bouton Parler pour discuter à la voix.", "m_eye": "Les maps", "m_h": "Visite chaque map en vidéo.", "m1": "La ville néon, ses tours au bord de la mer", "m2t": "Aéroport international", "m2": "La route sur la mer, le terminal et les pistes", "m3t": "Paris", "m3": "La nouvelle tour Eiffel illuminée au coucher du soleil", "m4t": "Forêt et verger", "m4": "Arbres au vent et fruits à cueillir", "p_h": "Crée ton personnage", "p_p": "Choisis ton nom de joueur, ton pays, tes langues et ta photo de profil avant d'entrer dans la ville.", "p_b": "Créer mon joueur", "h_eye": "Installation", "h_h": "Prêt en trois étapes.", "h_pc": "PC Windows", "a1": "Appuie sur <b>Android · APK</b> et accepte l'enregistrement.", "a2": "Ouvre le fichier <b>creator-1.74.apk</b> depuis tes téléchargements.", "a3": "Autorise l'installation d'applications inconnues si Android le demande, puis installe.", "w1": "Sur PC, appuie sur <b>PC Windows</b> et enregistre <b>creator-1.74-pc.zip</b>.", "w2": "Fais un clic droit sur le fichier, <b>Extraire tout</b>, puis double-clique sur <b>Creator.exe</b>.", "w3": "Si Windows affiche « Windows a protégé votre ordinateur », clique sur <b>Informations complémentaires</b> puis <b>Exécuter quand même</b>.", "w4": "Au clavier : <b>Z Q S D</b> ou les flèches pour bouger, <b>Espace</b> pour sauter, la souris pour les boutons.", "i1": "Sur iPhone, appuie sur <b>iPhone · jouer dans Safari</b> : le jeu se lance directement, sans rien installer.", "i2": "Pour l'avoir comme une appli : bouton <b>Partager</b> de Safari, puis <b>Sur l'écran d'accueil</b>.", "i3": "Tourne le téléphone à l'horizontale. Le premier chargement prend un peu de temps (8 Mo).", "n_lab": "Nouveau", "news": "Nouveau en 1.74 : classements, quartier des joueurs avec une maison par joueur, Premium avec badge brillant, arme en main visible par tous, filtre monstres ou stations sur la carte, boss et voyous qui ne frappent que si on les attaque, et un site des joueurs avec classement et forum.", "top_link": "Haut de page ↑", "prep": "Préparation du téléchargement…", "noacc": "Le téléchargement n'est pas disponible ici. Ouvre cette page depuis ton compte Claude.", "okzip": "C'est enregistré. Extrais le zip et lance Creator.exe.", "okapk": "C'est enregistré. Ouvre le fichier pour installer Creator.", "declined": "Téléchargement annulé.", "denied": "Accès refusé. Autorise l'accès aux fichiers du projet pour télécharger.", "badtype": "Ce type de fichier ne peut pas être téléchargé depuis cette page.", "notfound": "Fichier introuvable.", "err": "Problème de téléchargement (%s). Réessaie.", "sound_off": "Couper le son", "cap0": "Hong Kong · nuit", "cap1": "Aéroport international", "cap2": "Paris · tour Eiffel", "cap3": "Tel Aviv · plage", "b_mac": "Mac", "h_mac": "Mac", "k1": "Appuie sur <b>Mac</b> et ouvre <b>creator-1.74-mac.zip</b> : tu obtiens <b>Creator.app</b>.", "k2": "Glisse <b>Creator.app</b> dans <b>Applications</b>.", "k3": "La première fois, macOS le bloque : ouvre <b>Réglages Système › Confidentialité et sécurité</b> et clique sur <b>Ouvrir quand même</b>.", "m5t": "Tel Aviv", "m5": "La plage, la promenade et ses restaurants", "m6t": "Néo-Cité", "m6": "L'île futuriste des architectes", "cap4": "Tel Aviv · tours Azrieli", "cap5": "Néo-Cité", "cap6": "Forêt et verger", "acct_top": "Mon compte", "nav_home": "Accueil", "nav_acct": "Créer un compte", "nav_players": "Joueurs", "nav_pics": "Images et FAQ", "nav_prof": "Profil du joueur"}, "es": {"title": "Descargar Creator", "dl_top": "Descargar", "tag": "Versión 1.74 · Android, PC, Mac y iPhone", "h1": "Tu ciudad. Tu vida. <span class=\"dim\">Tu mundo.</span>", "lede": "De Hong Kong a París, te espera una ciudad llena de vida. Construye, conduce, llama a tus amigos y vive tu vida, solo o con otros.", "cta1": "Descargar Creator", "cta2": "Novedades", "word_sub": "Tu ciudad te espera.", "sound_on": "Activar el sonido", "q_eye": "¿Qué es Creator?", "q_h": "Un mundo virtual para encuentros reales.", "q_p": "Amistad, amor o negocios: haz crecer tus relaciones en todo el mundo y crea tu universo.", "d_eye": "Descargar", "d_h": "Juega donde quieras.", "d_p": "Android, PC con Windows, Mac o iPhone: elige tu plataforma, la instalación tarda un minuto.", "b_pc": "PC con Windows", "b_ios": "iPhone · jugar en Safari", "f_eye": "En el juego", "f_h": "Toda una ciudad para vivir.", "f1t": "Ciudades del mundo", "f1p": "Hong Kong, París, un aeropuerto internacional y barrios por explorar.", "f2t": "Multijugador", "f2p": "Tu cuenta de jugador y tus amigos en línea en la misma ciudad.", "f3t": "Construcción", "f3p": "Construye, múdate e instálate en los edificios de la ciudad.", "f4t": "Coches y helicópteros", "f4p": "Conduce por las calles o despega desde las azoteas.", "f5t": "Teléfono y voz", "f5p": "Llamadas, mensajes y botón Hablar para charlar por voz.", "m_eye": "Los mapas", "m_h": "Recorre cada mapa en vídeo.", "m1": "La ciudad de neón y sus torres junto al mar", "m2t": "Aeropuerto internacional", "m2": "La carretera sobre el mar, la terminal y las pistas", "m3t": "París", "m3": "La nueva torre Eiffel iluminada al atardecer", "m4t": "Bosque y huerto", "m4": "Árboles al viento y frutas para recoger", "p_h": "Crea tu personaje", "p_p": "Elige tu nombre de jugador, tu país, tus idiomas y tu foto de perfil antes de entrar en la ciudad.", "p_b": "Crear mi jugador", "h_eye": "Instalación", "h_h": "Listo en tres pasos.", "h_pc": "PC con Windows", "a1": "Toca <b>Android · APK</b> y acepta la descarga.", "a2": "Abre el archivo <b>creator-1.74.apk</b> desde tus descargas.", "a3": "Permite instalar aplicaciones desconocidas si Android lo pide y luego instala.", "w1": "En el PC, pulsa <b>PC con Windows</b> y guarda <b>creator-1.74-pc.zip</b>.", "w2": "Haz clic derecho en el archivo, <b>Extraer todo</b> y luego doble clic en <b>Creator.exe</b>.", "w3": "Si Windows muestra «Windows protegió su PC», haz clic en <b>Más información</b> y luego en <b>Ejecutar de todas formas</b>.", "w4": "Teclado: <b>W A S D</b> o las flechas para moverte, <b>Espacio</b> para saltar, el ratón para los botones.", "i1": "En el iPhone, toca <b>iPhone · jugar en Safari</b>: el juego se abre al instante, sin instalar nada.", "i2": "Para tenerlo como una app: botón <b>Compartir</b> de Safari y luego <b>Añadir a pantalla de inicio</b>.", "i3": "Gira el teléfono en horizontal. La primera carga tarda un poco (8 MB).", "n_lab": "Nuevo", "news": "Novedad en 1.74: clasificaciones, un barrio de jugadores con una casa por jugador, Premium con insignia brillante, el arma en la mano visible para todos, filtro de monstruos o estaciones en el mapa, jefes y matones que solo atacan si los atacas, y un sitio de jugadores con clasificación y foro.", "top_link": "Volver arriba ↑", "prep": "Preparando la descarga…", "noacc": "La descarga no está disponible aquí. Abre esta página desde tu cuenta de Claude.", "okzip": "Guardado. Extrae el zip y abre Creator.exe.", "okapk": "Guardado. Abre el archivo para instalar Creator.", "declined": "Descarga cancelada.", "denied": "Acceso denegado. Permite el acceso a los archivos del proyecto para descargar.", "badtype": "Este tipo de archivo no se puede descargar desde esta página.", "notfound": "Archivo no encontrado.", "err": "Problema de descarga (%s). Inténtalo de nuevo.", "sound_off": "Silenciar", "cap0": "Hong Kong · noche", "cap1": "Aeropuerto internacional", "cap2": "París · torre Eiffel", "cap3": "Tel Aviv · playa", "b_mac": "Mac", "h_mac": "Mac", "k1": "Pulsa <b>Mac</b> y abre <b>creator-1.74-mac.zip</b>: obtienes <b>Creator.app</b>.", "k2": "Arrastra <b>Creator.app</b> a <b>Aplicaciones</b>.", "k3": "La primera vez, macOS lo bloquea: abre <b>Ajustes del Sistema › Privacidad y seguridad</b> y haz clic en <b>Abrir igualmente</b>.", "m5t": "Tel Aviv", "m5": "La playa, el paseo y sus restaurantes", "m6t": "Neo Ciudad", "m6": "La isla futurista de los arquitectos", "cap4": "Tel Aviv · torres Azrieli", "cap5": "Neo Ciudad", "cap6": "Bosque y huerto", "acct_top": "Mi cuenta", "nav_home": "Inicio", "nav_acct": "Crear una cuenta", "nav_players": "Jugadores", "nav_pics": "Imágenes y FAQ", "nav_prof": "Perfil"}, "he": {"title": "הורדת Creator", "dl_top": "הורדה", "tag": "גרסה 1.74 · אנדרואיד, PC, Mac ואייפון", "h1": "העיר שלך. החיים שלך. <span class=\"dim\">העולם שלך.</span>", "lede": "מהונג קונג ועד פריז, עיר חיה מחכה לך. בנה, נהג, התקשר לחברים וחיה את החיים שלך, לבד או ביחד.", "cta1": "הורדת Creator", "cta2": "מה חדש", "word_sub": "העיר שלך מחכה.", "sound_on": "הפעל צליל", "q_eye": "מה זה Creator?", "q_h": "עולם וירטואלי למפגשים אמיתיים.", "q_p": "חברות, אהבה או עסקים: פתח קשרים בכל העולם וצור את היקום שלך.", "d_eye": "הורדה", "d_h": "שחק איפה שתרצה.", "d_p": "אנדרואיד, מחשב Windows, Mac או אייפון: בחר פלטפורמה, ההתקנה לוקחת דקה.", "b_pc": "מחשב Windows", "b_ios": "אייפון · לשחק ב-Safari", "f_eye": "במשחק", "f_h": "עיר שלמה לחיות בה.", "f1t": "ערים מהעולם", "f1p": "הונג קונג, פריז, שדה תעופה בינלאומי ושכונות לגלות.", "f2t": "מרובה משתתפים", "f2p": "חשבון שחקן משלך, והחברים שלך מחוברים באותה עיר.", "f3t": "בנייה", "f3p": "בנה, עבור דירה והתמקם בבנייני העיר.", "f4t": "מכוניות ומסוקים", "f4p": "נהג ברחובות או המרא מהגגות.", "f5t": "טלפון וקול", "f5p": "שיחות, הודעות וכפתור דיבור לצ'אט קולי.", "m_eye": "המפות", "m_h": "סיור בכל מפה בווידאו.", "m1": "עיר הניאון ומגדליה על חוף הים", "m2t": "שדה תעופה בינלאומי", "m2": "הכביש מעל הים, הטרמינל והמסלולים", "m3t": "פריז", "m3": "מגדל אייפל החדש מואר בשקיעה", "m4t": "יער ובוסתן", "m4": "עצים ברוח ופירות לקטיף", "p_h": "צור את הדמות שלך", "p_p": "בחר שם שחקן, מדינה, שפות ותמונת פרופיל לפני הכניסה לעיר.", "p_b": "צור את השחקן שלי", "h_eye": "התקנה", "h_h": "מוכן בשלושה צעדים.", "h_pc": "מחשב Windows", "a1": "הקש על <b>Android · APK</b> ואשר את ההורדה.", "a2": "פתח את הקובץ <b>creator-1.74.apk</b> מההורדות.", "a3": "אשר התקנת אפליקציות לא מוכרות אם אנדרואיד מבקש, ואז התקן.", "w1": "במחשב, לחץ על <b>מחשב Windows</b> ושמור את <b>creator-1.74-pc.zip</b>.", "w2": "לחץ לחיצה ימנית על הקובץ, <b>חלץ הכל</b>, ואז לחיצה כפולה על <b>Creator.exe</b>.", "w3": "אם Windows מציג „Windows הגן על המחשב שלך”, לחץ על <b>מידע נוסף</b> ואז <b>הפעל בכל זאת</b>.", "w4": "מקלדת: <b>W A S D</b> או החיצים לתנועה, <b>רווח</b> לקפיצה, העכבר לכפתורים.", "i1": "באייפון, הקש על <b>אייפון · לשחק ב-Safari</b>: המשחק נפתח מיד, בלי להתקין כלום.", "i2": "כדי שיהיה כמו אפליקציה: כפתור <b>שיתוף</b> ב-Safari ואז <b>הוסף למסך הבית</b>.", "i3": "סובב את הטלפון לרוחב. הטעינה הראשונה לוקחת קצת זמן (8MB).", "n_lab": "חדש", "news": "חדש ב-1.74: טבלאות דירוג, שכונת שחקנים עם בית לכל שחקן, פרימיום עם תג נוצץ, הנשק ביד גלוי לכולם, מסנן מפלצות או תחנות במפה, בוסים ובריונים שתוקפים רק אם תוקפים אותם, ואתר שחקנים עם דירוג ופורום.", "top_link": "חזרה למעלה ↑", "prep": "מכין את ההורדה…", "noacc": "ההורדה לא זמינה כאן. פתח את הדף מחשבון Claude שלך.", "okzip": "נשמר. חלץ את ה-zip והפעל את Creator.exe.", "okapk": "נשמר. פתח את הקובץ כדי להתקין את Creator.", "declined": "ההורדה בוטלה.", "denied": "הגישה נדחתה. אשר גישה לקבצי הפרויקט כדי להוריד.", "badtype": "לא ניתן להוריד סוג קובץ זה מהדף.", "notfound": "הקובץ לא נמצא.", "err": "בעיה בהורדה (%s). נסה שוב.", "sound_off": "השתק", "cap0": "הונג קונג · לילה", "cap1": "שדה תעופה בינלאומי", "cap2": "פריז · מגדל אייפל", "cap3": "תל אביב · חוף", "b_mac": "Mac", "h_mac": "Mac", "k1": "לחץ על <b>Mac</b> ופתח את <b>creator-1.74-mac.zip</b>: תקבל את <b>Creator.app</b>.", "k2": "גרור את <b>Creator.app</b> לתיקיית <b>יישומים</b>.", "k3": "בפעם הראשונה macOS חוסם אותו: פתח <b>הגדרות המערכת › פרטיות ואבטחה</b> ולחץ על <b>פתח בכל זאת</b>.", "m5t": "תל אביב", "m5": "החוף, הטיילת והמסעדות", "m6t": "ניאו-סיטי", "m6": "האי העתידני של האדריכלים", "cap4": "תל אביב · מגדלי עזריאלי", "cap5": "ניאו-סיטי", "cap6": "יער ובוסתן", "acct_top": "החשבון שלי", "nav_home": "בית", "nav_acct": "יצירת חשבון", "nav_players": "שחקנים", "nav_pics": "תמונות ושאלות", "nav_prof": "פרופיל שחקן"}};
+var LANG='en';
+try{var q=new URLSearchParams(location.search).get('lang');var sv=localStorage.getItem('creator-lang');LANG=(q&&I18N[q])?q:(sv&&I18N[sv])?sv:'en'}catch(e){}
+function T(k){return (I18N[LANG]&&I18N[LANG][k])||I18N.en[k]||k}
+function setLang(l){
+  if(!I18N[l])return; LANG=l;
+  try{localStorage.setItem('creator-lang',l)}catch(e){}
+  document.documentElement.lang=l; document.documentElement.dir=l==='he'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(function(el){el.innerHTML=T(el.getAttribute('data-i18n'))});
+  document.querySelectorAll('.langs button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===l))});
+  var v=document.getElementById('hero-video'),sb=document.querySelector('#hero-sound span');
+  if(sb&&v)sb.textContent=v.muted?T('sound_on'):T('sound_off');
+  var cap=document.getElementById('hero-cap'); if(cap&&cap.dataset.i!==undefined)cap.textContent=T('cap'+cap.dataset.i);
 }
-document.querySelectorAll(".langs button").forEach(b => b.onclick = () => { lang = b.dataset.l; try{localStorage.setItem("creator_lang", lang);}catch(e){} applyLang(); });
-
-const MAPS = [["hongkong","Hong Kong"],["aeroport",{fr:"Aéroport",en:"Airport"}],["paris","Paris"],["telaviv","Tel Aviv"],["neocite",{fr:"Néo-Cité",en:"Neo City"}],["foret",{fr:"Forêt",en:"Forest"}]];
-function renderMaps(){
-  $("#maps").innerHTML = MAPS.map(m => '<figure><video src="videos/' + m[0] + '.mp4" poster="videos/' + m[0] + '.jpg" controls playsinline preload="none"></video><figcaption>' +
-    esc(typeof m[1] === "string" ? m[1] : (m[1][lang] || m[1].fr)) + "</figcaption></figure>").join("");
-}
-$("#hero-sound").onclick = () => { const v = $("#hero"); v.muted = !v.muted; if(!v.muted) v.play(); $("#hero-sound").textContent = t(v.muted ? "sound" : "mute"); };
-
-function renderGal(){
-  $("#gal").innerHTML = Array.from({length:12}, (_, i) => '<img src="images/jeu' + (i + 1) + '.jpg" loading="lazy" alt="Creator">').join("");
-  $("#gal").querySelectorAll("img").forEach(im => im.onclick = () => { $("#lb img").src = im.src; $("#lb").classList.add("on"); });
-}
-$("#lb").onclick = () => $("#lb").classList.remove("on");
-
-// ---------- Joueurs et classement (table « joueurs », remplie par le jeu)
-const BOARDS = ["niveau","cartes","tues","maison","note"];
-let board = "niveau", players = null;
-const fmtN = n => Number(n || 0).toLocaleString(lang === "fr" ? "fr-FR" : "en-US");
-async function loadPlayers(){
-  if(!sb){ players = []; return renderPlayers(); }
-  const { data, error } = await sb.from("joueurs").select("id,pseudo,niveau,cartes,tues,maison,note,avis,premium,inscrit,vu").limit(5000).then(r => r, err => ({ error: err }));
-  players = error ? [] : data;
-  renderPlayers();
-}
-function renderPlayers(){
-  if(players === null) return;
-  const day = Date.now() - 864e5;
-  $("#st-all").textContent = fmtN(players.length);
-  $("#st-day").textContent = fmtN(players.filter(p => new Date(p.vu).getTime() > day).length);
-  $("#st-prem").textContent = fmtN(players.filter(p => p.premium).length);
-  $("#boards").innerHTML = BOARDS.map(b => '<button data-b="' + b + '" class="' + (b === board ? "on" : "") + '">' + esc(t("b_" + b)) + "</button>").join("");
-  $("#boards").querySelectorAll("button").forEach(b => b.onclick = () => { board = b.dataset.b; renderPlayers(); });
-  const badge = p => p.premium ? '<span class="badge ' + esc(p.premium) + '">PREMIUM</span>' : "";
-  const me = user ? user.id : "";
-  let rows = players.slice();
-  if(board === "note") rows = rows.filter(p => p.avis >= 3);
-  rows.sort((a, b) => (b[board] || 0) - (a[board] || 0));
-  const val = p => board === "niveau" ? t("u_niveau") + p.niveau : (board === "note" ? Number(p.note).toFixed(1) : fmtN(p[board])) + t("u_" + board);
-  $("#rank").innerHTML = rows.length ? rows.slice(0, 50).map((p, i) => '<li class="' + (p.id === me ? "mine" : "") + '"><span class="n">' + (i + 1) + '</span><span class="p">' +
-    esc(p.pseudo) + (p.id === me ? " · " + esc(t("you")) : "") + badge(p) + '</span><span class="v">' + esc(val(p)) + "</span></li>").join("")
-    : '<li class="empty">' + esc(board === "note" && players.length ? t("needavis") : t("nobody")) + "</li>";
-  const when = s => new Date(s).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { dateStyle: "medium" });
-  const list = players.slice().sort((a, b) => new Date(b.vu) - new Date(a.vu));
-  $("#players").innerHTML = list.length ? list.map(p => {
-    const on = Date.now() - new Date(p.vu).getTime() < 6 * 60e3;
-    return '<div class="pl"><span class="av">' + esc((p.pseudo || "?").slice(0, 1).toUpperCase()) + '</span><div><b>' + esc(p.pseudo) + badge(p) + "</b><span>" +
-      esc(t("lvl") + p.niveau) + " · " + (on ? '<i class="dot"></i>' + esc(t("online")) : esc(t("seen") + when(p.vu))) + "</span></div></div>";
-  }).join("") : '<p class="empty">' + esc(t("nobody")) + "</p>";
-}
-// Une ligne pour chaque compte, même sans avoir encore joué
-async function claimRow(){
-  if(!sb || !user) return;
-  await sb.from("joueurs").upsert({ id: user.id, pseudo: pseudoOf(user).slice(0, 20), vu: new Date().toISOString() }, { onConflict: "id" }).then(r => r, () => null);
-  loadPlayers();
-}
-
-function show(tab){
-  document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("on", s.id === tab));
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  try{ history.replaceState(null, "", "#" + tab); }catch(e){}
-}
-document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => show(b.dataset.tab));
-document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => show(b.dataset.go));
-
-$("#dl-android").href = BASE + "creator-" + VERSION + ".apk";
-$("#dl-pc").href = BASE + "creator-" + VERSION + "-pc.zip";
-$("#dl-mac").href = BASE + "creator-" + VERSION + "-mac.zip";
-
-function msg(id, text, ok){ const m = $(id); m.textContent = text; m.className = "msg " + (ok ? "ok" : "bad"); }
-function pseudoOf(u){ return (u && u.user_metadata && u.user_metadata.pseudo) || (u && u.email ? u.email.split("@")[0] : "Joueur"); }
-
-$("#f-signup").onsubmit = async e => {
-  e.preventDefault();
-  if(!sb) return msg("#su-msg", t("offline"));
-  msg("#su-msg", t("wait"), true);
-  const pseudo = $("#su-pseudo").value.trim().slice(0, 20);
-  const { data, error } = await sb.auth.signUp({ email: $("#su-mail").value.trim(), password: $("#su-pass").value, options: { data: { pseudo } } }).catch(err => ({ error: err }));
-  if(error) return msg("#su-msg", error.message || t("offline"));
-  if(data && data.session){ msg("#su-msg", t("created"), true); setTimeout(() => show("profil"), 900); }
-  else msg("#su-msg", t("check"), true);
-};
-$("#f-login").onsubmit = async e => {
-  e.preventDefault();
-  if(!sb) return msg("#li-msg", t("offline"));
-  msg("#li-msg", t("wait"), true);
-  const { error } = await sb.auth.signInWithPassword({ email: $("#li-mail").value.trim(), password: $("#li-pass").value }).catch(err => ({ error: err }));
-  if(error) return msg("#li-msg", /invalid/i.test(error.message || "") ? t("badlogin") : (error.message || t("offline")));
-  msg("#li-msg", t("welcome") + pseudoOf(user), true);
-  show("profil");
-};
-$("#p-out-btn").onclick = async () => { if(sb) await sb.auth.signOut(); };
-$("#f-pseudo").onsubmit = async e => {
-  e.preventDefault();
-  const pseudo = $("#p-pseudo").value.trim().slice(0, 20);
-  if(!pseudo) return;
-  const { error } = await sb.auth.updateUser({ data: { pseudo } }).catch(err => ({ error: err }));
-  if(error) return msg("#p-msg", error.message || t("offline"));
-  msg("#p-msg", t("saved"), true);
-  claimRow();
-};
-
-function renderUser(){
-  $("#p-out").hidden = !!user; $("#p-in").hidden = !user; $("#f-post").hidden = !user;
-  if(!user) return;
-  const p = pseudoOf(user);
-  $("#p-name").textContent = p; $("#p-av").textContent = p.slice(0, 1).toUpperCase();
-  $("#p-mail").textContent = user.email || "";
-  const d = new Date(user.created_at);
-  $("#p-since").textContent = t("since") + d.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB");
-  if(document.activeElement !== $("#p-pseudo")) $("#p-pseudo").value = p;
-}
-
-function renderCats(){
-  $("#cats").innerHTML = ["all"].concat(CATS).map(c => '<button data-c="' + c + '" class="' + (c === cat ? "on" : "") + '">' + esc(t(c)) + "</button>").join("");
-  $("#cats").querySelectorAll("button").forEach(b => b.onclick = () => { cat = b.dataset.c; renderCats(); loadPosts(); });
-}
-
-async function loadPosts(){
-  const box = $("#posts");
-  if(!sb){ box.innerHTML = '<p class="empty">' + esc(t("offline")) + "</p>"; return; }
-  let q = sb.from("forum").select("*").order("created_at", { ascending: false }).limit(200);
-  if(cat !== "all") q = q.eq("categorie", cat);
-  const { data, error } = await q.then(r => r, err => ({ error: err }));
-  if(error){
-    forumOk = false;
-    box.innerHTML = '<p class="empty">' + esc(/relation|does not exist|schema cache|404/i.test(error.message || "") ? t("soon") : t("offline")) + "</p>";
-    return;
-  }
-  forumOk = true;
-  const tops = data.filter(p => !p.parent_id), kids = data.filter(p => p.parent_id);
-  if(!tops.length){ box.innerHTML = '<p class="empty">' + esc(t("empty")) + "</p>"; return; }
-  const when = s => new Date(s).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
-  box.innerHTML = tops.map(p => {
-    const rep = kids.filter(k => k.parent_id === p.id).reverse().map(k =>
-      '<div class="reply"><div class="meta">' + esc(k.pseudo) + " · " + esc(when(k.created_at)) + "</div><p>" + esc(k.texte) + "</p></div>").join("");
-    const mine = user && user.id === p.user_id;
-    return '<article class="post" data-id="' + p.id + '"><h3>' + esc(p.titre || "") + '</h3><div class="meta"><span class="pillcat">' + esc(t(p.categorie)) + "</span>" +
-      esc(p.pseudo) + " · " + esc(when(p.created_at)) + "</div><p>" + esc(p.texte) + "</p>" + rep +
-      (user ? '<div class="row" style="margin-top:10px"><input placeholder="' + esc(t("reply")) + '" maxlength="2000" style="flex:1;min-width:160px"><button class="btn small" data-reply="' + p.id + '">' + esc(t("send")) + "</button>" +
-        (mine ? '<button class="btn ghost small" data-del="' + p.id + '">' + esc(t("del")) + "</button>" : "") + "</div>" : "") + "</article>";
-  }).join("");
-  box.querySelectorAll("[data-reply]").forEach(b => b.onclick = async () => {
-    const input = b.previousElementSibling, txt = input.value.trim();
-    if(!txt) return;
-    const parent = tops.find(p => p.id == b.dataset.reply);
-    b.disabled = true;
-    await sb.from("forum").insert({ pseudo: pseudoOf(user), categorie: parent.categorie, titre: "", texte: txt, parent_id: parent.id, user_id: user.id });
-    loadPosts();
+document.querySelectorAll('.langs button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
+setLang(LANG);
+</script>
+<script>
+const msg=document.getElementById('msg');
+// Les boutons Android et PC sont des liens publics (GitHub Pages) : tout le monde peut télécharger, sans compte
+</script>
+<script>
+// Vidéos des maps : elles jouent quand elles sont à l'écran, en pause sinon
+(function(){
+  var vids=document.querySelectorAll('.map video');
+  if(!('IntersectionObserver' in window)){vids.forEach(function(v){v.preload='auto';v.play().catch(function(){})});return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;
+    if(e.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.35});
+  vids.forEach(function(v){io.observe(v)});
+})();
+</script>
+<script>
+// Montage en tête : légende et barres suivent la vidéo ; bouton pour le son
+(function(){
+  var v=document.getElementById('hero-video'); if(!v) return;
+  var cap=document.getElementById('hero-cap'), bars=document.querySelectorAll('#hero-bars span');
+  var names=function(i){return T('cap'+i)};
+  var cuts=[0,4.7,9.1,13.5,17.9,22.3,26.7,31.4], cur=-1;
+  v.addEventListener('timeupdate',function(){
+    var t=v.currentTime, i=0; while(i<cuts.length-2&&t>=cuts[i+1])i++;
+    if(i!==cur){cur=i;cap.dataset.i=i;cap.style.opacity=0;setTimeout(function(){cap.textContent=names(i);cap.style.opacity=1},180)}
+    bars.forEach(function(b,k){var p=k<i?1:k>i?0:(t-cuts[k])/(cuts[k+1]-cuts[k]);b.style.setProperty('--p',Math.max(0,Math.min(1,p)))});
   });
-  box.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => { await sb.from("forum").delete().eq("id", b.dataset.del); loadPosts(); });
-}
-
-$("#f-post").onsubmit = async e => {
-  e.preventDefault();
-  if(!user) return msg("#po-msg", t("loginfirst"));
-  const row = { pseudo: pseudoOf(user), categorie: $("#po-cat").value, titre: $("#po-title").value.trim(), texte: $("#po-text").value.trim(), user_id: user.id };
-  const { error } = await sb.from("forum").insert(row).then(r => r, err => ({ error: err }));
-  if(error) return msg("#po-msg", forumOk ? (error.message || t("offline")) : t("soon"));
-  $("#po-title").value = ""; $("#po-text").value = "";
-  msg("#po-msg", t("posted"), true);
-  cat = row.categorie; renderCats(); loadPosts();
-};
-
-if(sb){
-  sb.auth.onAuthStateChange((ev, session) => { user = session ? session.user : null; renderUser(); loadPosts();
-    if(user && (ev === "SIGNED_IN" || ev === "INITIAL_SESSION")) claimRow(); else renderPlayers(); });
-  sb.auth.getSession().then(r => { user = r.data && r.data.session ? r.data.session.user : null; renderUser(); }, () => {});
-}
-const start = (location.hash || "#jeu").slice(1);
-show(["compte","jeu","joueurs","profil"].includes(start) ? start : "jeu");
-applyLang();
-loadPlayers();
+  var btn=document.getElementById('hero-sound'), label=btn.querySelector('span');
+  btn.addEventListener('click',function(){
+    v.muted=!v.muted; if(!v.muted){v.volume=.85; v.play().catch(function(){})}
+    btn.setAttribute('aria-pressed',String(!v.muted)); label.textContent=v.muted?T('sound_on'):T('sound_off');
+  });
+  v.play().catch(function(){});
+})();
 </script>
 </body>
 </html>
