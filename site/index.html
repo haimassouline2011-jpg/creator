@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Creator · Compte</title>
+<meta name="description" content="Crée ton compte Creator, télécharge le jeu, retrouve ton profil, les nouveautés, la FAQ et le forum.">
+<link rel="icon" href="../index.icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--ink:#0a0a0a;--ink-2:#3a3a3c;--muted:#6e6e73;--soft:#a1a1a6;
+  --line:#e6e6e8;--line-strong:#cfcfd3;--surface:#f6f6f7;--on-ink:#ffffff;
+  --ok:#1f9d55;--bad:#d70015;
+  --radius-xl:28px;--radius-lg:20px;--radius-md:14px;
+  --font:"Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0a0a0b;--ink:#f5f5f7;--ink-2:#d1d1d6;--muted:#9a9aa0;--soft:#6e6e73;
+  --line:#232326;--line-strong:#3a3a3e;--surface:#151517;--on-ink:#0a0a0a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a0a0b;--ink:#f5f5f7;--ink-2:#d1d1d6;--muted:#9a9aa0;--soft:#6e6e73;
+  --line:#232326;--line-strong:#3a3a3e;--surface:#151517;--on-ink:#0a0a0a;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line)}
+.top .wrap{height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:19px;letter-spacing:-.03em}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-size:15px}
+.langs{display:flex;gap:4px}
+.langs button{font:600 13px var(--font);border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:5px 10px;cursor:pointer}
+.langs button.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.tabs{display:flex;gap:6px;margin:26px 0 8px;padding:5px;background:var(--surface);border-radius:999px;overflow-x:auto}
+.tabs button{flex:1 1 0;min-width:0;font:600 15px/1.2 var(--font);border:0;border-radius:999px;padding:11px 12px;cursor:pointer;background:transparent;color:var(--ink-2)}
+@media(max-width:520px){.tabs button{font-size:13px;padding:10px 6px}}
+.tabs button.on{background:var(--ink);color:var(--on-ink)}
+section.tab{display:none;padding:22px 0 60px}
+section.tab.on{display:block}
+h1{font-size:clamp(30px,6vw,52px);letter-spacing:-.04em;line-height:1.05;margin:8px 0 10px}
+h2{font-size:22px;letter-spacing:-.02em;margin:34px 0 12px}
+.lede{color:var(--muted);margin:0 0 22px;max-width:620px}
+.card{border:1px solid var(--line);border-radius:var(--radius-xl);padding:22px;background:var(--bg)}
+.grid2{display:grid;gap:16px}
+@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 6px}
+input,textarea,select{width:100%;font:16px var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px 14px}
+textarea{min-height:120px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--ink);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 16px var(--font);padding:13px 22px;border-radius:999px;
+  background:var(--ink);color:var(--on-ink);border:1px solid var(--ink);cursor:pointer;text-decoration:none;margin-top:16px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn.small{padding:8px 14px;font-size:14px;margin-top:0}
+.btn:disabled{opacity:.5;cursor:default}
+.msg{margin-top:12px;font-size:14px;min-height:20px}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.dl{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.dl a{display:flex;flex-direction:column;gap:2px;padding:18px;border:1px solid var(--line);border-radius:var(--radius-lg);text-decoration:none}
+.dl a:hover{border-color:var(--ink)}
+.dl b{font-size:18px}.dl span{color:var(--muted);font-size:14px}
+.news li{margin:6px 0}
+details{border:1px solid var(--line);border-radius:var(--radius-md);padding:14px 16px;margin:8px 0}
+summary{font-weight:600;cursor:pointer}
+details p{color:var(--ink-2);margin:10px 0 0}
+.me{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-weight:800;font-size:26px}
+.me .who b{font-size:22px;display:block}.me .who span{color:var(--muted);font-size:14px}
+.cats{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.cats button{font:600 14px var(--font);border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:999px;padding:7px 13px;cursor:pointer}
+.cats button.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.post{border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px;margin:10px 0}
+.post h3{margin:0 0 4px;font-size:17px}
+.post .meta{color:var(--muted);font-size:13px}
+.post p{margin:8px 0 0;white-space:pre-wrap;word-wrap:break-word}
+.reply{margin:10px 0 0 14px;padding-left:12px;border-left:2px solid var(--line)}
+.pillcat{display:inline-block;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-right:6px}
+.empty{color:var(--muted);padding:20px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.foot{color:var(--soft);font-size:13px;padding:30px 0;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#"><span class="mark">C</span>Creator</a>
+  <div class="langs"><button data-l="fr">FR</button><button data-l="en">EN</button></div>
+</div></header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist">
+    <button data-tab="compte" data-t="t_compte">Créer un compte</button>
+    <button data-tab="jeu" data-t="t_jeu">Télécharger le jeu</button>
+    <button data-tab="profil" data-t="t_profil">Profil du joueur</button>
+  </nav>
+
+  <!-- ================= Compte ================= -->
+  <section class="tab" id="compte">
+    <h1 data-t="c_h1">Ton compte Creator</h1>
+    <p class="lede" data-t="c_lede">Le même compte sert dans le jeu (Android, PC, Mac, iPhone) et sur ce site : profil, forum, et bientôt ta progression.</p>
+    <div class="grid2">
+      <form class="card" id="f-signup">
+        <h2 style="margin-top:0" data-t="c_new">Je m'inscris</h2>
+        <label for="su-pseudo" data-t="pseudo">Pseudo (ce que les autres voient)</label>
+        <input id="su-pseudo" maxlength="20" required autocomplete="nickname">
+        <label for="su-mail" data-t="mail">E-mail</label>
+        <input id="su-mail" type="email" required autocomplete="email">
+        <label for="su-pass" data-t="pass">Mot de passe (6 caractères minimum)</label>
+        <input id="su-pass" type="password" minlength="6" required autocomplete="new-password">
+        <button class="btn" type="submit" data-t="c_create">Créer mon compte</button>
+        <div class="msg" id="su-msg"></div>
+      </form>
+      <form class="card" id="f-login">
+        <h2 style="margin-top:0" data-t="c_old">J'ai déjà un compte</h2>
+        <label for="li-mail" data-t="mail">E-mail</label>
+        <input id="li-mail" type="email" required autocomplete="email">
+        <label for="li-pass" data-t="pass2">Mot de passe</label>
+        <input id="li-pass" type="password" required autocomplete="current-password">
+        <button class="btn" type="submit" data-t="c_login">Me connecter</button>
+        <div class="msg" id="li-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= Jeu ================= -->
+  <section class="tab" id="jeu">
+    <h1 data-t="j_h1">Télécharger Creator</h1>
+    <p class="lede" data-t="j_lede">Une ville vivante de Hong Kong à Paris et Tel Aviv : construis, conduis, appelle tes amis et vis ta vie.</p>
+    <div class="dl">
+      <a id="dl-android" href="#"><b>Android</b><span data-t="j_apk">Fichier APK</span></a>
+      <a id="dl-pc" href="#"><b>PC Windows</b><span data-t="j_zip">Fichier ZIP</span></a>
+      <a id="dl-mac" href="#"><b>Mac</b><span data-t="j_zip">Fichier ZIP</span></a>
+      <a href="../" target="_blank" rel="noopener"><b>iPhone · Safari</b><span data-t="j_web">Jouer dans le navigateur</span></a>
+    </div>
+    <h2 data-t="news">Nouveautés</h2>
+    <ul class="news" id="news"></ul>
+    <h2 data-t="faq">Questions fréquentes</h2>
+    <div id="faq"></div>
+  </section>
+
+  <!-- ================= Profil ================= -->
+  <section class="tab" id="profil">
+    <div id="p-out">
+      <h1 data-t="p_h1">Profil du joueur</h1>
+      <p class="lede" data-t="p_need">Connecte-toi pour voir ton profil et écrire sur le forum.</p>
+      <button class="btn" data-go="compte" data-t="p_go">Me connecter ou m'inscrire</button>
+    </div>
+    <div id="p-in" hidden>
+      <div class="card me">
+        <div class="avatar" id="p-av">C</div>
+        <div class="who"><b id="p-name">…</b><span id="p-mail"></span><br><span id="p-since"></span></div>
+        <div style="margin-left:auto" class="row">
+          <button class="btn ghost small" id="p-out-btn" data-t="logout">Se déconnecter</button>
+        </div>
+      </div>
+      <form class="card" id="f-pseudo" style="margin-top:14px">
+        <label for="p-pseudo" data-t="p_change">Changer mon pseudo</label>
+        <div class="row"><input id="p-pseudo" maxlength="20" style="flex:1;min-width:180px">
+          <button class="btn small" type="submit" data-t="save">Enregistrer</button></div>
+        <div class="msg" id="p-msg"></div>
+      </form>
+    </div>
+
+    <h2 data-t="forum">Forum</h2>
+    <div class="cats" id="cats"></div>
+    <form class="card" id="f-post" hidden>
+      <label for="po-cat" data-t="cat">Catégorie</label>
+      <select id="po-cat"></select>
+      <label for="po-title" data-t="title">Titre</label>
+      <input id="po-title" maxlength="120" required>
+      <label for="po-text" data-t="text">Message</label>
+      <textarea id="po-text" maxlength="4000" required></textarea>
+      <button class="btn" type="submit" data-t="publish">Publier</button>
+      <div class="msg" id="po-msg"></div>
+    </form>
+    <div id="posts"></div>
+  </section>
+
+  <div class="foot" data-t="foot">Creator · un jeu d'Alain. Le forum est public : reste poli et ne partage jamais ton mot de passe.</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const VERSION = "1.73";
+const SB_URL = "https://kvdokbkfbqhguymnzacd.supabase.co";
+const SB_KEY = "sb_publishable__vblmShGEsqIYMPkeaqdcw_Eb0pVxy2";   // clé publique (la même que dans le jeu)
+const BASE = "https://haimassouline2011-jpg.github.io/creator/telecharger/";
+const CATS = ["general","aide","idees","bugs","echanges","clans"];
+
+const T = {
+ fr:{t_compte:"Créer un compte",t_jeu:"Télécharger le jeu",t_profil:"Profil du joueur",
+  c_h1:"Ton compte Creator",c_lede:"Le même compte sert dans le jeu (Android, PC, Mac, iPhone) et sur ce site : profil, forum, et bientôt ta progression.",
+  c_new:"Je m'inscris",pseudo:"Pseudo (ce que les autres voient)",mail:"E-mail",pass:"Mot de passe (6 caractères minimum)",pass2:"Mot de passe",
+  c_create:"Créer mon compte",c_old:"J'ai déjà un compte",c_login:"Me connecter",
+  j_h1:"Télécharger Creator",j_lede:"Une ville vivante de Hong Kong à Paris et Tel Aviv : construis, conduis, appelle tes amis et vis ta vie.",
+  j_apk:"Fichier APK",j_zip:"Fichier ZIP",j_web:"Jouer dans le navigateur",news:"Nouveautés",faq:"Questions fréquentes",
+  p_h1:"Profil du joueur",p_need:"Connecte-toi pour voir ton profil et écrire sur le forum.",p_go:"Me connecter ou m'inscrire",
+  logout:"Se déconnecter",p_change:"Changer mon pseudo",save:"Enregistrer",forum:"Forum",cat:"Catégorie",title:"Titre",text:"Message",publish:"Publier",
+  foot:"Creator · un jeu d'Alain. Le forum est public : reste poli et ne partage jamais ton mot de passe.",
+  all:"Tout",general:"Général",aide:"Aide",idees:"Idées",bugs:"Bugs",echanges:"Échanges",clans:"Clans",
+  since:"Membre depuis le ",created:"Compte créé ! Tu peux jouer avec ce compte.",check:"Compte créé. Ouvre l'e-mail de confirmation, puis connecte-toi.",
+  welcome:"Bienvenue ",saved:"Pseudo enregistré.",posted:"Message publié.",reply:"Répondre",send:"Envoyer",
+  empty:"Pas encore de message ici. Lance la discussion !",soon:"Le forum ouvre très bientôt.",offline:"Impossible de joindre le serveur. Réessaie dans un instant.",
+  loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…"},
+ en:{t_compte:"Create an account",t_jeu:"Download the game",t_profil:"Player profile",
+  c_h1:"Your Creator account",c_lede:"The same account works in the game (Android, PC, Mac, iPhone) and on this site: profile, forum and soon your progress.",
+  c_new:"Sign up",pseudo:"Nickname (what others see)",mail:"Email",pass:"Password (at least 6 characters)",pass2:"Password",
+  c_create:"Create my account",c_old:"I already have an account",c_login:"Log in",
+  j_h1:"Download Creator",j_lede:"A living city from Hong Kong to Paris and Tel Aviv: build, drive, call your friends and live your life.",
+  j_apk:"APK file",j_zip:"ZIP file",j_web:"Play in the browser",news:"What's new",faq:"FAQ",
+  p_h1:"Player profile",p_need:"Log in to see your profile and post on the forum.",p_go:"Log in or sign up",
+  logout:"Log out",p_change:"Change my nickname",save:"Save",forum:"Forum",cat:"Category",title:"Title",text:"Message",publish:"Post",
+  foot:"Creator · a game by Alain. The forum is public: be kind and never share your password.",
+  all:"All",general:"General",aide:"Help",idees:"Ideas",bugs:"Bugs",echanges:"Trading",clans:"Clans",
+  since:"Member since ",created:"Account created! You can play with it.",check:"Account created. Open the confirmation email, then log in.",
+  welcome:"Welcome ",saved:"Nickname saved.",posted:"Message posted.",reply:"Reply",send:"Send",
+  empty:"No messages here yet. Start the conversation!",soon:"The forum opens very soon.",offline:"Can't reach the server. Try again in a moment.",
+  loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…"}
+};
+const NEWS = {
+ fr:["1.73 : Marché Mondial et marchés de ville, 30 plats de restaurant, bus, métro et train, croisière autour des îles, messages vocaux, éditeur du visage, gros boutons et plein écran sur téléphone, lumière de nuit.",
+     "1.72 : coffres en bois, cuir, or ou diamant, pièces au sol, la tête suit la souris.",
+     "1.71 : 30 collections de cartes à trouver et 30 objets 3D rares.",
+     "Bientôt : quartier des joueurs (une maison par joueur), classements, Premium, filtre de la carte."],
+ en:["1.73: World Market and city malls, 30 restaurant dishes, buses, metro and trains, a cruise around the islands, voice messages, face editor, big buttons and full screen on phones, night lights.",
+     "1.72: wood, leather, gold or diamond chests, coins on the ground, your head follows the mouse.",
+     "1.71: 30 card collections to find and 30 rare 3D items.",
+     "Coming soon: players' district (one house per player), rankings, Premium, map filter."]
+};
+const FAQ = {
+ fr:[["Comment installer le jeu sur Android ?","Touche Android, ouvre le fichier APK téléchargé et autorise l'installation d'applications inconnues si ton téléphone le demande."],
+     ["Et sur iPhone ?","Ouvre le jeu dans Safari (bouton iPhone), puis Partager > Sur l'écran d'accueil pour l'avoir en plein écran comme une application."],
+     ["Comment gagner des pixels ?","Ramasse les pièces, pêche, coupe du bois, mine, récolte, vends dans ton magasin, élimine les méchants et les boss, et reviens chaque jour."],
+     ["Les boss m'attaquent-ils ?","Non, tant que tu ne les attaques pas. Touche un boss pour le combattre et gagner un coffre. Pareil pour les voyous."],
+     ["Comment jouer avec mes amis ?","Connecte-toi avec ton compte : tous les joueurs partagent la même ville. Touche un joueur pour l'ajouter en ami, lui écrire ou échanger un objet."],
+     ["J'ai perdu de la vie sans raison","Regarde ta jauge de faim en haut à droite : à zéro, tu perds 2 de vie toutes les 20 secondes. Mange quelque chose."],
+     ["Mon compte est-il le même partout ?","Oui : le même e-mail et mot de passe marchent dans le jeu sur tous les appareils et sur ce site."]],
+ en:[["How do I install on Android?","Tap Android, open the downloaded APK and allow installing unknown apps if your phone asks."],
+     ["And on iPhone?","Open the game in Safari (iPhone button), then Share > Add to Home Screen to play full screen like an app."],
+     ["How do I earn pixels?","Pick up coins, fish, chop wood, mine, harvest, sell in your shop, defeat bad guys and bosses, and come back every day."],
+     ["Do bosses attack me?","No, not until you attack them. Hit a boss to fight it and win a chest. Same for thugs."],
+     ["How do I play with friends?","Log in with your account: all players share the same city. Tap a player to add them as a friend, message them or trade an item."],
+     ["I lose health for no reason","Check your hunger bar top right: when empty you lose 2 health every 20 seconds. Eat something."],
+     ["Is my account the same everywhere?","Yes: the same email and password work in the game on every device and on this site."]]
+};
+
+let lang = "fr";
+try{ lang = localStorage.getItem("creator_lang") || (navigator.language||"fr").slice(0,2); }catch(e){}
+if(!T[lang]) lang = "en";
+const t = k => (T[lang] && T[lang][k]) || T.fr[k] || k;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+let sb = null, user = null, cat = "all", forumOk = true;
+try{ sb = supabase.createClient(SB_URL, SB_KEY); }catch(e){ sb = null; }
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
+  document.querySelectorAll(".langs button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+  $("#news").innerHTML = NEWS[lang].map(n => "<li>" + esc(n) + "</li>").join("");
+  $("#faq").innerHTML = FAQ[lang].map(q => "<details><summary>" + esc(q[0]) + "</summary><p>" + esc(q[1]) + "</p></details>").join("");
+  $("#po-cat").innerHTML = CATS.map(c => '<option value="' + c + '">' + esc(t(c)) + "</option>").join("");
+  renderCats(); renderUser(); loadPosts();
+}
+document.querySelectorAll(".langs button").forEach(b => b.onclick = () => { lang = b.dataset.l; try{localStorage.setItem("creator_lang", lang);}catch(e){} applyLang(); });
+
+function show(tab){
+  document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("on", s.id === tab));
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  try{ history.replaceState(null, "", "#" + tab); }catch(e){}
+}
+document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => show(b.dataset.tab));
+document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => show(b.dataset.go));
+
+$("#dl-android").href = BASE + "creator-" + VERSION + ".apk";
+$("#dl-pc").href = BASE + "creator-" + VERSION + "-pc.zip";
+$("#dl-mac").href = BASE + "creator-" + VERSION + "-mac.zip";
+
+function msg(id, text, ok){ const m = $(id); m.textContent = text; m.className = "msg " + (ok ? "ok" : "bad"); }
+function pseudoOf(u){ return (u && u.user_metadata && u.user_metadata.pseudo) || (u && u.email ? u.email.split("@")[0] : "Joueur"); }
+
+$("#f-signup").onsubmit = async e => {
+  e.preventDefault();
+  if(!sb) return msg("#su-msg", t("offline"));
+  msg("#su-msg", t("wait"), true);
+  const pseudo = $("#su-pseudo").value.trim().slice(0, 20);
+  const { data, error } = await sb.auth.signUp({ email: $("#su-mail").value.trim(), password: $("#su-pass").value, options: { data: { pseudo } } }).catch(err => ({ error: err }));
+  if(error) return msg("#su-msg", error.message || t("offline"));
+  if(data && data.session){ msg("#su-msg", t("created"), true); setTimeout(() => show("profil"), 900); }
+  else msg("#su-msg", t("check"), true);
+};
+$("#f-login").onsubmit = async e => {
+  e.preventDefault();
+  if(!sb) return msg("#li-msg", t("offline"));
+  msg("#li-msg", t("wait"), true);
+  const { error } = await sb.auth.signInWithPassword({ email: $("#li-mail").value.trim(), password: $("#li-pass").value }).catch(err => ({ error: err }));
+  if(error) return msg("#li-msg", /invalid/i.test(error.message || "") ? t("badlogin") : (error.message || t("offline")));
+  msg("#li-msg", t("welcome") + pseudoOf(user), true);
+  show("profil");
+};
+$("#p-out-btn").onclick = async () => { if(sb) await sb.auth.signOut(); };
+$("#f-pseudo").onsubmit = async e => {
+  e.preventDefault();
+  const pseudo = $("#p-pseudo").value.trim().slice(0, 20);
+  if(!pseudo) return;
+  const { error } = await sb.auth.updateUser({ data: { pseudo } }).catch(err => ({ error: err }));
+  if(error) return msg("#p-msg", error.message || t("offline"));
+  msg("#p-msg", t("saved"), true);
+};
+
+function renderUser(){
+  $("#p-out").hidden = !!user; $("#p-in").hidden = !user; $("#f-post").hidden = !user;
+  if(!user) return;
+  const p = pseudoOf(user);
+  $("#p-name").textContent = p; $("#p-av").textContent = p.slice(0, 1).toUpperCase();
+  $("#p-mail").textContent = user.email || "";
+  const d = new Date(user.created_at);
+  $("#p-since").textContent = t("since") + d.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB");
+  if(document.activeElement !== $("#p-pseudo")) $("#p-pseudo").value = p;
+}
+
+function renderCats(){
+  $("#cats").innerHTML = ["all"].concat(CATS).map(c => '<button data-c="' + c + '" class="' + (c === cat ? "on" : "") + '">' + esc(t(c)) + "</button>").join("");
+  $("#cats").querySelectorAll("button").forEach(b => b.onclick = () => { cat = b.dataset.c; renderCats(); loadPosts(); });
+}
+
+async function loadPosts(){
+  const box = $("#posts");
+  if(!sb){ box.innerHTML = '<p class="empty">' + esc(t("offline")) + "</p>"; return; }
+  let q = sb.from("forum").select("*").order("created_at", { ascending: false }).limit(200);
+  if(cat !== "all") q = q.eq("categorie", cat);
+  const { data, error } = await q.then(r => r, err => ({ error: err }));
+  if(error){
+    forumOk = false;
+    box.innerHTML = '<p class="empty">' + esc(/relation|does not exist|schema cache|404/i.test(error.message || "") ? t("soon") : t("offline")) + "</p>";
+    return;
+  }
+  forumOk = true;
+  const tops = data.filter(p => !p.parent_id), kids = data.filter(p => p.parent_id);
+  if(!tops.length){ box.innerHTML = '<p class="empty">' + esc(t("empty")) + "</p>"; return; }
+  const when = s => new Date(s).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+  box.innerHTML = tops.map(p => {
+    const rep = kids.filter(k => k.parent_id === p.id).reverse().map(k =>
+      '<div class="reply"><div class="meta">' + esc(k.pseudo) + " · " + esc(when(k.created_at)) + "</div><p>" + esc(k.texte) + "</p></div>").join("");
+    const mine = user && user.id === p.user_id;
+    return '<article class="post" data-id="' + p.id + '"><h3>' + esc(p.titre || "") + '</h3><div class="meta"><span class="pillcat">' + esc(t(p.categorie)) + "</span>" +
+      esc(p.pseudo) + " · " + esc(when(p.created_at)) + "</div><p>" + esc(p.texte) + "</p>" + rep +
+      (user ? '<div class="row" style="margin-top:10px"><input placeholder="' + esc(t("reply")) + '" maxlength="2000" style="flex:1;min-width:160px"><button class="btn small" data-reply="' + p.id + '">' + esc(t("send")) + "</button>" +
+        (mine ? '<button class="btn ghost small" data-del="' + p.id + '">' + esc(t("del")) + "</button>" : "") + "</div>" : "") + "</article>";
+  }).join("");
+  box.querySelectorAll("[data-reply]").forEach(b => b.onclick = async () => {
+    const input = b.previousElementSibling, txt = input.value.trim();
+    if(!txt) return;
+    const parent = tops.find(p => p.id == b.dataset.reply);
+    b.disabled = true;
+    await sb.from("forum").insert({ pseudo: pseudoOf(user), categorie: parent.categorie, titre: "", texte: txt, parent_id: parent.id, user_id: user.id });
+    loadPosts();
+  });
+  box.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => { await sb.from("forum").delete().eq("id", b.dataset.del); loadPosts(); });
+}
+
+$("#f-post").onsubmit = async e => {
+  e.preventDefault();
+  if(!user) return msg("#po-msg", t("loginfirst"));
+  const row = { pseudo: pseudoOf(user), categorie: $("#po-cat").value, titre: $("#po-title").value.trim(), texte: $("#po-text").value.trim(), user_id: user.id };
+  const { error } = await sb.from("forum").insert(row).then(r => r, err => ({ error: err }));
+  if(error) return msg("#po-msg", forumOk ? (error.message || t("offline")) : t("soon"));
+  $("#po-title").value = ""; $("#po-text").value = "";
+  msg("#po-msg", t("posted"), true);
+  cat = row.categorie; renderCats(); loadPosts();
+};
+
+if(sb){
+  sb.auth.onAuthStateChange((_ev, session) => { user = session ? session.user : null; renderUser(); loadPosts(); });
+  sb.auth.getSession().then(r => { user = r.data && r.data.session ? r.data.session.user : null; renderUser(); }, () => {});
+}
+const start = (location.hash || "#jeu").slice(1);
+show(["compte","jeu","profil"].includes(start) ? start : "jeu");
+applyLang();
+</script>
+</body>
+</html>
