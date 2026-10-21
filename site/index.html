@@ -87,6 +87,29 @@ details p{color:var(--ink-2);margin:10px 0 0}
 .maps figure{margin:0}
 .maps video{width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);background:#000;display:block;object-fit:cover}
 .maps figcaption{font-weight:600;margin-top:8px}
+.gal{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.gal img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-md);display:block;cursor:zoom-in;background:var(--surface)}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);display:none;place-items:center;padding:16px}
+.lb.on{display:grid}.lb img{max-width:100%;max-height:90vh;border-radius:12px}
+.stats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin:0 0 8px}
+.stat{border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px}
+.stat b{display:block;font-size:clamp(22px,5vw,30px);letter-spacing:-.03em}.stat span{color:var(--muted);font-size:14px}
+.rank{list-style:none;padding:0;margin:0;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
+.rank li{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.rank li:first-child{border-top:0}
+.rank .n{width:30px;font-weight:800;color:var(--muted)}
+.rank li:nth-child(1) .n{color:#d4a300}.rank li:nth-child(2) .n{color:#8e8e93}.rank li:nth-child(3) .n{color:#b86b2a}
+.rank .p{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank .v{font-weight:700;font-variant-numeric:tabular-nums}
+.rank li.mine{background:var(--surface)}
+.badge{font-size:11px;font-weight:700;border-radius:999px;padding:2px 7px;margin-left:6px;color:#0a0a0a;vertical-align:2px}
+.badge.argent{background:#e3e6ea}.badge.or{background:#ffd60a}.badge.diamant{background:#7fe8ff}
+.players{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.players .empty{grid-column:1/-1}
+.pl{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--radius-md);padding:10px 12px;min-width:0}
+.pl .av{width:36px;height:36px;flex:none;border-radius:50%;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-weight:800}
+.pl div{min-width:0}.pl b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pl span{color:var(--muted);font-size:13px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:5px}
 .foot{color:var(--soft);font-size:13px;padding:30px 0;border-top:1px solid var(--line)}
 </style>
 </head>
@@ -100,6 +123,7 @@ details p{color:var(--ink-2);margin:10px 0 0}
   <nav class="tabs" role="tablist">
     <button data-tab="compte" data-t="t_compte">Créer un compte</button>
     <button data-tab="jeu" data-t="t_jeu">Télécharger le jeu</button>
+    <button data-tab="joueurs" data-t="t_joueurs">Joueurs</button>
     <button data-tab="profil" data-t="t_profil">Profil du joueur</button>
   </nav>
 
@@ -145,6 +169,8 @@ details p{color:var(--ink-2);margin:10px 0 0}
       <a id="dl-mac" href="#"><b>Mac</b><span data-t="j_zip">Fichier ZIP</span></a>
       <a href="../" target="_blank" rel="noopener"><b>iPhone · Safari</b><span data-t="j_web">Jouer dans le navigateur</span></a>
     </div>
+    <h2 data-t="pics">Images du jeu</h2>
+    <div class="gal" id="gal"></div>
     <h2 data-t="maps">Les maps en vidéo</h2>
     <div class="maps" id="maps"></div>
     <h2 data-t="news">Nouveautés</h2>
@@ -154,6 +180,21 @@ details p{color:var(--ink-2);margin:10px 0 0}
   </section>
 
   <!-- ================= Profil ================= -->
+  <section class="tab" id="joueurs">
+    <h1 data-t="w_h1">Les joueurs</h1>
+    <p class="lede" data-t="w_lede">Tous les inscrits et le classement. Les chiffres viennent du jeu et se mettent à jour quand le joueur est en ligne.</p>
+    <div class="stats">
+      <div class="stat"><b id="st-all">–</b><span data-t="w_all">joueurs inscrits</span></div>
+      <div class="stat"><b id="st-day">–</b><span data-t="w_day">vus aujourd'hui</span></div>
+      <div class="stat"><b id="st-prem">–</b><span data-t="w_prem">joueurs Premium</span></div>
+    </div>
+    <h2 data-t="w_rank">Classement</h2>
+    <div class="cats" id="boards"></div>
+    <ol class="rank" id="rank"></ol>
+    <h2 data-t="w_list">Joueurs inscrits</h2>
+    <div class="players" id="players"></div>
+  </section>
+
   <section class="tab" id="profil">
     <div id="p-out">
       <h1 data-t="p_h1">Profil du joueur</h1>
@@ -193,6 +234,7 @@ details p{color:var(--ink-2);margin:10px 0 0}
 
   <div class="foot" data-t="foot">Creator · un jeu d'Alain. Le forum est public : reste poli et ne partage jamais ton mot de passe.</div>
 </main>
+<div class="lb" id="lb"><img alt=""></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -216,7 +258,13 @@ const T = {
   since:"Membre depuis le ",created:"Compte créé ! Tu peux jouer avec ce compte.",check:"Compte créé. Ouvre l'e-mail de confirmation, puis connecte-toi.",
   welcome:"Bienvenue ",saved:"Pseudo enregistré.",posted:"Message publié.",reply:"Répondre",send:"Envoyer",
   empty:"Pas encore de message ici. Lance la discussion !",soon:"Le forum ouvre très bientôt.",offline:"Impossible de joindre le serveur. Réessaie dans un instant.",
-  sound:"Activer le son",mute:"Couper le son",maps:"Les maps en vidéo",
+  sound:"Activer le son",mute:"Couper le son",maps:"Les maps en vidéo",pics:"Images du jeu",
+  t_joueurs:"Joueurs",w_h1:"Les joueurs",w_lede:"Tous les inscrits et le classement. Les chiffres viennent du jeu et se mettent à jour quand le joueur est en ligne.",
+  w_all:"joueurs inscrits",w_day:"vus aujourd'hui",w_prem:"joueurs Premium",w_rank:"Classement",w_list:"Joueurs inscrits",
+  b_niveau:"Niveau",b_cartes:"Cartes",b_tues:"Ennemis",b_maison:"Maison",b_note:"Note",
+  u_niveau:"Nv ",u_cartes:" cartes",u_tues:" tués",u_maison:" px",u_note:" ★",
+  nobody:"Aucun joueur pour le moment. Crée ton compte et sois le premier !",lvl:"Niveau ",seen:"Vu le ",online:"En ligne",you:"toi",
+  needavis:"Il faut au moins 3 avis pour être classé à la note.",
   loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…"},
  en:{t_compte:"Create an account",t_jeu:"Download the game",t_profil:"Player profile",
   c_h1:"Your Creator account",c_lede:"The same account works in the game (Android, PC, Mac, iPhone) and on this site: profile, forum and soon your progress.",
@@ -231,7 +279,13 @@ const T = {
   since:"Member since ",created:"Account created! You can play with it.",check:"Account created. Open the confirmation email, then log in.",
   welcome:"Welcome ",saved:"Nickname saved.",posted:"Message posted.",reply:"Reply",send:"Send",
   empty:"No messages here yet. Start the conversation!",soon:"The forum opens very soon.",offline:"Can't reach the server. Try again in a moment.",
-  sound:"Turn sound on",mute:"Mute",maps:"The maps on video",
+  sound:"Turn sound on",mute:"Mute",maps:"The maps on video",pics:"Game pictures",
+  t_joueurs:"Players",w_h1:"The players",w_lede:"Everyone who signed up and the rankings. Numbers come from the game and update while the player is online.",
+  w_all:"registered players",w_day:"seen today",w_prem:"Premium players",w_rank:"Rankings",w_list:"Registered players",
+  b_niveau:"Level",b_cartes:"Cards",b_tues:"Enemies",b_maison:"House",b_note:"Rating",
+  u_niveau:"Lv ",u_cartes:" cards",u_tues:" defeated",u_maison:" px",u_note:" ★",
+  nobody:"No players yet. Create your account and be the first!",lvl:"Level ",seen:"Seen ",online:"Online",you:"you",
+  needavis:"At least 3 reviews are needed to be ranked by rating.",
   loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…"}
 };
 const NEWS = {
@@ -278,7 +332,7 @@ function applyLang(){
   $("#news").innerHTML = NEWS[lang].map(n => "<li>" + esc(n) + "</li>").join("");
   $("#faq").innerHTML = FAQ[lang].map(q => "<details><summary>" + esc(q[0]) + "</summary><p>" + esc(q[1]) + "</p></details>").join("");
   $("#po-cat").innerHTML = CATS.map(c => '<option value="' + c + '">' + esc(t(c)) + "</option>").join("");
-  renderMaps(); renderCats(); renderUser(); loadPosts();
+  renderMaps(); renderGal(); renderCats(); renderUser(); loadPosts(); renderPlayers();
   $("#hero-sound").textContent = t($("#hero").muted ? "sound" : "mute");
 }
 document.querySelectorAll(".langs button").forEach(b => b.onclick = () => { lang = b.dataset.l; try{localStorage.setItem("creator_lang", lang);}catch(e){} applyLang(); });
@@ -289,6 +343,54 @@ function renderMaps(){
     esc(typeof m[1] === "string" ? m[1] : (m[1][lang] || m[1].fr)) + "</figcaption></figure>").join("");
 }
 $("#hero-sound").onclick = () => { const v = $("#hero"); v.muted = !v.muted; if(!v.muted) v.play(); $("#hero-sound").textContent = t(v.muted ? "sound" : "mute"); };
+
+function renderGal(){
+  $("#gal").innerHTML = Array.from({length:12}, (_, i) => '<img src="images/jeu' + (i + 1) + '.jpg" loading="lazy" alt="Creator">').join("");
+  $("#gal").querySelectorAll("img").forEach(im => im.onclick = () => { $("#lb img").src = im.src; $("#lb").classList.add("on"); });
+}
+$("#lb").onclick = () => $("#lb").classList.remove("on");
+
+// ---------- Joueurs et classement (table « joueurs », remplie par le jeu)
+const BOARDS = ["niveau","cartes","tues","maison","note"];
+let board = "niveau", players = null;
+const fmtN = n => Number(n || 0).toLocaleString(lang === "fr" ? "fr-FR" : "en-US");
+async function loadPlayers(){
+  if(!sb){ players = []; return renderPlayers(); }
+  const { data, error } = await sb.from("joueurs").select("id,pseudo,niveau,cartes,tues,maison,note,avis,premium,inscrit,vu").limit(5000).then(r => r, err => ({ error: err }));
+  players = error ? [] : data;
+  renderPlayers();
+}
+function renderPlayers(){
+  if(players === null) return;
+  const day = Date.now() - 864e5;
+  $("#st-all").textContent = fmtN(players.length);
+  $("#st-day").textContent = fmtN(players.filter(p => new Date(p.vu).getTime() > day).length);
+  $("#st-prem").textContent = fmtN(players.filter(p => p.premium).length);
+  $("#boards").innerHTML = BOARDS.map(b => '<button data-b="' + b + '" class="' + (b === board ? "on" : "") + '">' + esc(t("b_" + b)) + "</button>").join("");
+  $("#boards").querySelectorAll("button").forEach(b => b.onclick = () => { board = b.dataset.b; renderPlayers(); });
+  const badge = p => p.premium ? '<span class="badge ' + esc(p.premium) + '">PREMIUM</span>' : "";
+  const me = user ? user.id : "";
+  let rows = players.slice();
+  if(board === "note") rows = rows.filter(p => p.avis >= 3);
+  rows.sort((a, b) => (b[board] || 0) - (a[board] || 0));
+  const val = p => board === "niveau" ? t("u_niveau") + p.niveau : (board === "note" ? Number(p.note).toFixed(1) : fmtN(p[board])) + t("u_" + board);
+  $("#rank").innerHTML = rows.length ? rows.slice(0, 50).map((p, i) => '<li class="' + (p.id === me ? "mine" : "") + '"><span class="n">' + (i + 1) + '</span><span class="p">' +
+    esc(p.pseudo) + (p.id === me ? " · " + esc(t("you")) : "") + badge(p) + '</span><span class="v">' + esc(val(p)) + "</span></li>").join("")
+    : '<li class="empty">' + esc(board === "note" && players.length ? t("needavis") : t("nobody")) + "</li>";
+  const when = s => new Date(s).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { dateStyle: "medium" });
+  const list = players.slice().sort((a, b) => new Date(b.vu) - new Date(a.vu));
+  $("#players").innerHTML = list.length ? list.map(p => {
+    const on = Date.now() - new Date(p.vu).getTime() < 6 * 60e3;
+    return '<div class="pl"><span class="av">' + esc((p.pseudo || "?").slice(0, 1).toUpperCase()) + '</span><div><b>' + esc(p.pseudo) + badge(p) + "</b><span>" +
+      esc(t("lvl") + p.niveau) + " · " + (on ? '<i class="dot"></i>' + esc(t("online")) : esc(t("seen") + when(p.vu))) + "</span></div></div>";
+  }).join("") : '<p class="empty">' + esc(t("nobody")) + "</p>";
+}
+// Une ligne pour chaque compte, même sans avoir encore joué
+async function claimRow(){
+  if(!sb || !user) return;
+  await sb.from("joueurs").upsert({ id: user.id, pseudo: pseudoOf(user).slice(0, 20), vu: new Date().toISOString() }, { onConflict: "id" }).then(r => r, () => null);
+  loadPlayers();
+}
 
 function show(tab){
   document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("on", s.id === tab));
@@ -332,6 +434,7 @@ $("#f-pseudo").onsubmit = async e => {
   const { error } = await sb.auth.updateUser({ data: { pseudo } }).catch(err => ({ error: err }));
   if(error) return msg("#p-msg", error.message || t("offline"));
   msg("#p-msg", t("saved"), true);
+  claimRow();
 };
 
 function renderUser(){
@@ -397,12 +500,14 @@ $("#f-post").onsubmit = async e => {
 };
 
 if(sb){
-  sb.auth.onAuthStateChange((_ev, session) => { user = session ? session.user : null; renderUser(); loadPosts(); });
+  sb.auth.onAuthStateChange((ev, session) => { user = session ? session.user : null; renderUser(); loadPosts();
+    if(user && (ev === "SIGNED_IN" || ev === "INITIAL_SESSION")) claimRow(); else renderPlayers(); });
   sb.auth.getSession().then(r => { user = r.data && r.data.session ? r.data.session.user : null; renderUser(); }, () => {});
 }
 const start = (location.hash || "#jeu").slice(1);
-show(["compte","jeu","profil"].includes(start) ? start : "jeu");
+show(["compte","jeu","joueurs","profil"].includes(start) ? start : "jeu");
 applyLang();
+loadPlayers();
 </script>
 </body>
 </html>
