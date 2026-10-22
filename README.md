@@ -2,7 +2,14 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.84 (Android, PC Windows, Mac et iPhone web : apk/creator-1.84.apk, apk/creator-1.84-pc.zip, apk/creator-1.84-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.85 (Android, PC Windows, Mac et iPhone web : apk/creator-1.85.apk, apk/creator-1.85-pc.zip, apk/creator-1.85-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.85 (2026-10-22)
+- Trois méga-boss arbres vivants aux yeux rouges au sommet de la Vallée des Nuages (Vieux Chêne, Grand Saule, Pin Noir) : coups de branches, onde de choc, racines qui jaillissent ; 100 000 px, 2 Pixart, un objet rare et le coffre du méga-boss (vallee_arbres.gd).
+- 160 monstres cubes du niveau 10 au 100, répartis également par niveau.
+- Dans la vallée, animaux et monstres lâchent des objets communs ou moyennement rares ; les rares restent pour les boss et les coffres.
+- Deux fois plus d'XP pour chaque niveau (niveau 100 deux fois plus dur).
+- Statut GC (Game Creator) pour Lopo et Mike (codes GCLOPO et GCMIKE) : comme GM, en or plus brillant.
 
 ## Version 1.84 (2026-10-22)
 - Nouvelle map « Vallée des Nuages » (porte A3 de l'aéroport, billet CR122) : montagnes dans les nuages, animaux à chasser, arbres fruitiers, lac avec pontons carrés et barques, monstres cubes aux yeux rouges du niveau 10 au 100.
