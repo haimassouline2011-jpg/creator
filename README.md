@@ -2,7 +2,13 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.85 (Android, PC Windows, Mac et iPhone web : apk/creator-1.85.apk, apk/creator-1.85-pc.zip, apk/creator-1.85-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.86 (Android, PC Windows, Mac et iPhone web : apk/creator-1.86.apk, apk/creator-1.86-pc.zip, apk/creator-1.86-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.86 (2026-10-22)
+- La nuit, de vraies lampes au plafond éclairent chaque pièce des bâtiments (magasins, centres commerciaux, Marché Mondial, supermarché, armurerie ; dans les autres bâtiments, des lampes s'allument au plafond de la pièce où l'on se trouve). Murs et plafonds ne brillent plus.
+- Technique : main.lit_interior + main.room_lights, nuit.gd (lampes OmniLight proches), bâtiments éclairés construits en morceaux de 24 m (main._fine / chunk_of) car le moteur limite les lumières par objet.
+- La radio hip-hop démarre dès l'entrée dans le jeu.
+- Correction : monter en passager dans la voiture ou l'hélico d'un autre joueur ne fait plus perdre de vie (sante._car_hits croyait que le véhicule nous renversait).
 
 ## Version 1.85 (2026-10-22)
 - Trois méga-boss arbres vivants aux yeux rouges au sommet de la Vallée des Nuages (Vieux Chêne, Grand Saule, Pin Noir) : coups de branches, onde de choc, racines qui jaillissent ; 100 000 px, 2 Pixart, un objet rare et le coffre du méga-boss (vallee_arbres.gd).
