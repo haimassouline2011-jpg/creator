@@ -2,7 +2,16 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.82 (Android, PC Windows, Mac et iPhone web : apk/creator-1.82.apk, apk/creator-1.82-pc.zip, apk/creator-1.82-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.83 (Android, PC Windows, Mac et iPhone web : apk/creator-1.83.apk, apk/creator-1.83-pc.zip, apk/creator-1.83-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.83 (2026-10-22)
+- Aéroport : le dallage du terminal était dessiné 12 cm au-dessus du sol où l'on marche ; les pieds ne s'enfoncent plus (airport.gd, aussi café et duty free).
+- Plaque au-dessus des joueurs empilée sans chevauchement (plaques.layout) : de bas en haut étoiles, niveau et statut, pseudo, GM, Premium, badge.
+- Pseudo, niveau et statut en police Lexend fine sans contour (fonts/Lexend.ttf) ; Premium -30 %.
+- Barre de vie cachée, visible 6 s quand on touche un joueur (main._tap_health, Plaques.show_bar).
+- 21 badges en deux styles au choix, Bijou ou Plat (badges/bijou, badges/plat), et effet du badge au choix : Particules, Aura (badge_aura.gd) ou Aucun.
+- Étoiles de la note : blanc transparent, argent, or rose, or, diamant.
+- Aura du personnage : voile lumineux qui monte des pieds, cercle au sol et étincelles (aura.gdshader, aura_sol.gdshader) au lieu de la bulle.
 
 ## Version 1.82 (2026-10-22)
 - Véhicules plus réalistes (vehicles.gd : carrosseries lissées _loft/_smooth_body, vitres, montants, rétros, phares, jantes à rayons chromés).
