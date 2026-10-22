@@ -2,7 +2,11 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.86 (Android, PC Windows, Mac et iPhone web : apk/creator-1.86.apk, apk/creator-1.86-pc.zip, apk/creator-1.86-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.87 (Android, PC Windows, Mac et iPhone web : apk/creator-1.87.apk, apk/creator-1.87-pc.zip, apk/creator-1.87-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.87 (2026-10-22)
+- Éclairage intérieur beaucoup plus fort, en blanc chaud, même la nuit (interieur.gd : lumière ambiante relevée dedans ; nuit.gd : plafonniers plus puissants, sans doublon dans le bâtiment où l'on est).
+- 200 niveaux au lieu de 100 (levels.MAX_LEVEL). Supabase : supabase/niveaux200.sql à exécuter (contrainte niveau 1 à 200 sur la table joueurs).
 
 ## Version 1.86 (2026-10-22)
 - La nuit, de vraies lampes au plafond éclairent chaque pièce des bâtiments (magasins, centres commerciaux, Marché Mondial, supermarché, armurerie ; dans les autres bâtiments, des lampes s'allument au plafond de la pièce où l'on se trouve). Murs et plafonds ne brillent plus.
