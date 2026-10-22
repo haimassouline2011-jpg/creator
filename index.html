@@ -102,13 +102,15 @@ body {
 	const realFetch = window.fetch.bind(window);
 	window.fetch = function (input, init) {
 		const url = typeof input === 'string' ? input : input.url;
+		// Version dans l'adresse : après une mise à jour, le navigateur ne garde pas l'ancien jeu en cache
+		const v = typeof GODOT_CONFIG !== 'undefined' ? '?v=' + GODOT_CONFIG.fileSizes['index.pck'] : '';
 		if (url.endsWith('index.pck')) {
-			return realFetch('donnees-pck.wasm', init);
+			return realFetch('donnees-pck.wasm' + v, init);
 		}
 		if (!url.endsWith('index.wasm')) {
 			return realFetch(input, init);
 		}
-		return realFetch('moteur-gz.wasm', init).then(async (r) => {
+		return realFetch('moteur-gz.wasm' + v, init).then(async (r) => {
 			if (!r.ok) {
 				return r;
 			}
