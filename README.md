@@ -2,7 +2,23 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.81 (Android, PC Windows, Mac et iPhone web : apk/creator-1.81.apk, apk/creator-1.81-pc.zip, apk/creator-1.81-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.82 (Android, PC Windows, Mac et iPhone web : apk/creator-1.82.apk, apk/creator-1.82-pc.zip, apk/creator-1.82-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.82 (2026-10-22)
+- Véhicules plus réalistes (vehicles.gd : carrosseries lissées _loft/_smooth_body, vitres, montants, rétros, phares, jantes à rayons chromés).
+- Pelouse réaliste (textures.gd _grass).
+- Clans (clan.gd, supabase/clans.sql à exécuter) : nom, emblème, niveau, 30 membres maximum, chat du clan.
+- Groupes de messages à plusieurs dans le téléphone (phone.gd, réseau).
+- Code ALAIN100M réutilisable à volonté.
+- Badges premium en relief et brillants (badges/*.png), étoiles au-dessus de la tête (etoiles.gdshader), pièce de pixels épaisse, police MSDF lisse pour les noms, noms des GM en or avec « GM » et arabesques (gm_nom.gd, gm_deco.gd, Cinzel).
+- Ailes d'ange réalistes à plumes qui s'ouvrent et se ferment (ailes.gd, ailes_anim.gd).
+- Émotions : « fumer » retiré, « dormir » et « macarena » ajoutées (les PNJ dansent la macarena au lieu de fumer).
+- Style des personnages réalistes (reels_style.gd, onglet Apparence > Style) : couleur du t-shirt, couleur des cheveux, 13 coupes ; accessoires de tête adaptés à la taille de chaque tête (Objets.fit_reels + head_box).
+- 33 quêtes avec PNJ donneurs, animaux et objets (quetes.gd, quetes_data.gd, tuile Quêtes).
+- Centre équestre sur la plage sud-est (equestre.gd, cheval.gd) : 4 chevaux à acheter, montables, avancer, reculer, sauter.
+- Le centre de l'IA (centre_ia.gd, livres_ia.gd, livre_ia_ui.gd, centre_ia_ecrans.gd) : tour de verre, 16 livres à feuilleter, PNJ, écrans géants, logos des IA, café.
+- Boîte de nuit NOX (boite.gd) : façade taguée, bar, piste, DJ, VIP, toilettes, musique, PNJ qui dansent.
+- Page d'accueil : nouveau montage vidéo 1080p (8 lieux) et vidéos des maps refaites.
 
 ## Version 1.81 (2026-10-21)
 - Casino refait (casino.gd) : salle sombre, table de cuir avec tapis en dégradé, cartes arrondies avec coins et dos brodé, jetons de casino (piles), croupier et joueurs plus détaillés, roue de roulette réaliste, tapis de roulette en trois colonnes, machine à sous avec effet de cylindre.
