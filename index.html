@@ -96,6 +96,16 @@ body {
 		</div>
 
 <script>
+// iPad / iPhone : image dessinée en résolution normale (pas x2) pour ne pas
+// dépasser la mémoire graphique de Safari (« WebGL context lost »).
+(function () {
+	const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+	if (ios) {
+		try { Object.defineProperty(window, 'devicePixelRatio', { get: () => 1, configurable: true }); } catch (e) {}
+	}
+}());
+</script>
+<script>
 // Le moteur du jeu est envoyé compressé (gzip) et décompressé ici, dans le navigateur.
 // Les fichiers portent l'extension .wasm pour être servis tels quels par l'hébergement.
 (function () {
@@ -126,7 +136,7 @@ body {
 </script>
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":14555568,"index.wasm":35376909},"focusCanvas":true,"gdextensionLibs":[],"serviceWorker":""};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":14342096,"index.wasm":35376909},"focusCanvas":true,"gdextensionLibs":[],"serviceWorker":""};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
