@@ -2,7 +2,14 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.83 (Android, PC Windows, Mac et iPhone web : apk/creator-1.83.apk, apk/creator-1.83-pc.zip, apk/creator-1.83-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.84 (Android, PC Windows, Mac et iPhone web : apk/creator-1.84.apk, apk/creator-1.84-pc.zip, apk/creator-1.84-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.84 (2026-10-22)
+- Nouvelle map « Vallée des Nuages » (porte A3 de l'aéroport, billet CR122) : montagnes dans les nuages, animaux à chasser, arbres fruitiers, lac avec pontons carrés et barques, monstres cubes aux yeux rouges du niveau 10 au 100.
+- Deuxième monnaie Pixart (pièce d'or « pix$art », 10 Pixart = 1 $) gagnée dans les événements ou achetée dans la boutique Premium ; code ALAINPIXART.
+- Bouton « Faire un don » dans Premium (PayPal), page de remerciement et 3 objets rares.
+- Pièce de pixels noire avec le logo ; soldes Pixart et pixels empilés.
+- Nouvelle disposition des boutons par défaut pour tout le monde (user://touches4.json).
 
 ## Version 1.83 (2026-10-22)
 - Aéroport : le dallage du terminal était dessiné 12 cm au-dessus du sol où l'on marche ; les pieds ne s'enfoncent plus (airport.gd, aussi café et duty free).
