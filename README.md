@@ -7,6 +7,7 @@ Jeu mobile de construction : chaque joueur a une maison dans une ville partagée
 ## Version 1.87 (2026-10-22)
 - Éclairage intérieur beaucoup plus fort, en blanc chaud, même la nuit (interieur.gd : lumière ambiante relevée dedans ; nuit.gd : plafonniers plus puissants, sans doublon dans le bâtiment où l'on est).
 - Correction : le jeu web plantait au démarrage (iPad : « Division by zero ») car un son était joué avant la création des lecteurs (sounds.play : % shots.size() avec 0).
+- Web (iPad « WebGL context lost ») : pas de petits morceaux (main.chunk_of), 4 plafonniers au lieu de 10 (nuit.gd), limites de lumières par défaut (project.godot .web).
 - 200 niveaux au lieu de 100 (levels.MAX_LEVEL). Supabase : supabase/niveaux200.sql à exécuter (contrainte niveau 1 à 200 sur la table joueurs).
 
 ## Version 1.86 (2026-10-22)
