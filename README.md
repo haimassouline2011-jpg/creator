@@ -8,7 +8,7 @@ Jeu mobile de construction : chaque joueur a une maison dans une ville partagée
 - Éclairage intérieur beaucoup plus fort, en blanc chaud, même la nuit (interieur.gd : lumière ambiante relevée dedans ; nuit.gd : plafonniers plus puissants, sans doublon dans le bâtiment où l'on est).
 - Correction : le jeu web plantait au démarrage (iPad : « Division by zero ») car un son était joué avant la création des lecteurs (sounds.play : % shots.size() avec 0).
 - Web (iPad « WebGL context lost ») : pas de petits morceaux (main.chunk_of), 4 plafonniers au lieu de 10 (nuit.gd), limites de lumières par défaut (project.godot .web).
-- Web iPad/iPhone (mémoire graphique) : visages des personnages réalistes en 512 px dans persos-pck (scratchpad pack_reels.gd), affiches neons/realisations limitées à 512 px, image en résolution x1 sur iOS (index.html).
+- Web iPad/iPhone (mémoire graphique) : visages des personnages réalistes en 512 px dans persos-pck (scratchpad pack_reels.gd), affiches neons/realisations réduites à 512 px seulement sur iOS (main.neon_gallery_texture), image en résolution x1 sur iOS (index.html).
 - 200 niveaux au lieu de 100 (levels.MAX_LEVEL). Supabase : supabase/niveaux200.sql à exécuter (contrainte niveau 1 à 200 sur la table joueurs).
 
 ## Version 1.86 (2026-10-22)
