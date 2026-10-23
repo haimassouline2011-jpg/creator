@@ -40,6 +40,7 @@ a{color:inherit}
 @media(max-width:520px){.tabs button{font-size:13px;padding:10px 6px}}
 .tabs a.tabhome{flex:1 1 0;min-width:0;font:600 15px/1.2 var(--font);border-radius:999px;padding:11px 12px;color:var(--ink-2);text-decoration:none;text-align:center}
 @media(max-width:520px){.tabs a.tabhome{font-size:13px;padding:10px 6px}}
+@media(max-width:520px){.tabs button,.tabs a.tabhome{flex:1 0 auto}}
 .tabs button.on{background:var(--ink);color:var(--on-ink)}
 section.tab{display:none;padding:22px 0 60px}
 section.tab.on{display:block}
@@ -128,6 +129,7 @@ details p{color:var(--ink-2);margin:10px 0 0}
     <button data-tab="joueurs" data-t="t_joueurs">Joueurs</button>
     <button data-tab="jeu" data-t="t_jeu">Images et FAQ</button>
     <button data-tab="profil" data-t="t_profil">Profil du joueur</button>
+    <a class="tabhome" href="commercants.html" data-t="t_com">Commerçants</a>
   </nav>
 
   <!-- ================= Compte ================= -->
@@ -226,14 +228,14 @@ details p{color:var(--ink-2);margin:10px 0 0}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-const VERSION = "1.87";
+const VERSION = "1.88";
 const SB_URL = "https://kvdokbkfbqhguymnzacd.supabase.co";
 const SB_KEY = "sb_publishable__vblmShGEsqIYMPkeaqdcw_Eb0pVxy2";   // clé publique (la même que dans le jeu)
 const BASE = "https://haimassouline2011-jpg.github.io/creator/telecharger/";
 const CATS = ["general","aide","idees","bugs","echanges","clans"];
 
 const T = {
- fr:{t_compte:"Créer un compte",t_home:"Accueil",t_jeu:"Images et FAQ",t_profil:"Profil du joueur",
+ fr:{t_compte:"Créer un compte",t_home:"Accueil",t_com:"Commerçants",t_jeu:"Images et FAQ",t_profil:"Profil du joueur",
   c_h1:"Ton compte Creator",c_lede:"Le même compte sert dans le jeu (Android, PC, Mac, iPhone) et sur ce site : profil, forum, et bientôt ta progression.",
   c_new:"Je m'inscris",pseudo:"Pseudo (ce que les autres voient)",mail:"E-mail",pass:"Mot de passe (6 caractères minimum)",pass2:"Mot de passe",
   c_create:"Créer mon compte",c_old:"J'ai déjà un compte",c_login:"Me connecter",
@@ -254,7 +256,7 @@ const T = {
   nobody:"Aucun joueur pour le moment. Crée ton compte et sois le premier !",lvl:"Niveau ",seen:"Vu le ",online:"En ligne",you:"toi",
   needavis:"Il faut au moins 3 avis pour être classé à la note.",
   loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…"},
- en:{t_compte:"Create an account",t_home:"Home",t_jeu:"Pictures & FAQ",t_profil:"Player profile",
+ en:{t_compte:"Create an account",t_home:"Home",t_com:"Merchants",t_jeu:"Pictures & FAQ",t_profil:"Player profile",
   c_h1:"Your Creator account",c_lede:"The same account works in the game (Android, PC, Mac, iPhone) and on this site: profile, forum and soon your progress.",
   c_new:"Sign up",pseudo:"Nickname (what others see)",mail:"Email",pass:"Password (at least 6 characters)",pass2:"Password",
   c_create:"Create my account",c_old:"I already have an account",c_login:"Log in",
@@ -277,7 +279,8 @@ const T = {
   loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…"}
 };
 const NEWS = {
- fr:["1.87 : éclairage beaucoup plus fort en blanc chaud dans tous les bâtiments, même la nuit, et 200 niveaux au lieu de 100.",
+ fr:["1.88 : métiers entre joueurs, commerces de joueurs, événements chaque jour, cadeau quotidien et passe de saison, accueil guidé, concours de maisons, circuit de course, stade de foot et de basket, boutiques de vrais commerçants, et la voiture peut monter du sable sur la route.",
+     "1.87 : éclairage beaucoup plus fort en blanc chaud dans tous les bâtiments, même la nuit, et 200 niveaux au lieu de 100.",
      "1.86 : la nuit, de vraies lampes au plafond éclairent chaque pièce des bâtiments, la radio hip-hop démarre dès l'entrée dans le jeu, et monter en passager dans la voiture ou l'hélico d'un joueur ne fait plus perdre de vie.",
      "1.85 : trois méga-boss arbres vivants aux yeux rouges au sommet de la Vallée des Nuages, 160 monstres du niveau 10 au 100, objets à ramasser sur les animaux et les monstres, niveaux deux fois plus durs et nouveau statut GC (Game Creator).",
      "1.84 : nouvelle map Vallée des Nuages (montagnes dans les nuages, animaux à chasser, fruits, lac avec pontons et barques, monstres cubes aux yeux rouges du niveau 10 au 100), nouvelle monnaie Pixart en or, bouton Faire un don avec 3 objets rares, pièce de pixels noire et nouvelle disposition des boutons.",
@@ -295,7 +298,8 @@ const NEWS = {
      "1.72 : coffres en bois, cuir, or ou diamant, pièces au sol, la tête suit la souris.",
      "1.71 : 30 collections de cartes à trouver et 30 objets 3D rares.",
      "Bientôt : le casino géant et de nouvelles voitures."],
- en:["1.87: much stronger warm white lighting inside every building, even at night, and 200 levels instead of 100.",
+ en:["1.88: jobs between players, player-run shops, daily events, daily gift and season pass, guided welcome, house contest, race circuit, football and basketball stadium, real merchants' shops, and cars can climb from the sand onto the road.",
+     "1.87: much stronger warm white lighting inside every building, even at night, and 200 levels instead of 100.",
      "1.86: at night, real ceiling lamps light every room of the buildings, the hip-hop radio starts as soon as you enter the game, and riding in another player's car or helicopter no longer makes you lose health.",
      "1.85: three living tree mega bosses with red eyes at the top of Cloud Valley, 160 monsters from level 10 to 100, items dropped by animals and monsters, levels twice as hard and a new GC (Game Creator) status.",
      "1.84: new Cloud Valley map (mountains in the clouds, animals to hunt, fruit, a lake with pontoons and rowboats, red-eyed cube monsters from level 10 to 100), new gold Pixart currency, a Donate button with 3 rare items, a black pixel coin and a new button layout.",
