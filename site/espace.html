@@ -136,6 +136,15 @@ details p{color:var(--ink-2);margin:10px 0 0}
   <section class="tab" id="compte">
     <h1 data-t="c_h1">Ton compte Creator</h1>
     <p class="lede" data-t="c_lede">Le même compte sert dans le jeu (Android, PC, Mac, iPhone) et sur ce site : profil, forum, et bientôt ta progression.</p>
+    <form class="card" id="f-recover" hidden>
+      <h2 style="margin-top:0" data-t="rec_h">Nouveau mot de passe</h2>
+      <label for="rc-pass" data-t="rec_p1">Nouveau mot de passe (6 caractères minimum)</label>
+      <input id="rc-pass" type="password" minlength="6" required autocomplete="new-password">
+      <label for="rc-pass2" data-t="rec_p2">Répète le nouveau mot de passe</label>
+      <input id="rc-pass2" type="password" minlength="6" required autocomplete="new-password">
+      <button class="btn" type="submit" data-t="rec_btn">Enregistrer le mot de passe</button>
+      <div class="msg" id="rc-msg"></div>
+    </form>
     <div class="grid2">
       <form class="card" id="f-signup">
         <h2 style="margin-top:0" data-t="c_new">Je m'inscris</h2>
@@ -155,6 +164,7 @@ details p{color:var(--ink-2);margin:10px 0 0}
         <label for="li-pass" data-t="pass2">Mot de passe</label>
         <input id="li-pass" type="password" required autocomplete="current-password">
         <button class="btn" type="submit" data-t="c_login">Me connecter</button>
+        <p style="margin:10px 0 0"><a href="#" id="li-forgot" data-t="forgot">Mot de passe oublié ?</a></p>
         <div class="msg" id="li-msg"></div>
       </form>
     </div>
@@ -228,7 +238,7 @@ details p{color:var(--ink-2);margin:10px 0 0}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-const VERSION = "1.90";
+const VERSION = "1.91";
 const SB_URL = "https://kvdokbkfbqhguymnzacd.supabase.co";
 const SB_KEY = "sb_publishable__vblmShGEsqIYMPkeaqdcw_Eb0pVxy2";   // clé publique (la même que dans le jeu)
 const BASE = "https://haimassouline2011-jpg.github.io/creator/telecharger/";
@@ -255,7 +265,9 @@ const T = {
   u_niveau:"Nv ",u_cartes:" cartes",u_tues:" tués",u_maison:" px",u_note:" ★",
   nobody:"Aucun joueur pour le moment. Crée ton compte et sois le premier !",lvl:"Niveau ",seen:"Vu le ",online:"En ligne",you:"toi",
   needavis:"Il faut au moins 3 avis pour être classé à la note.",
-  loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…"},
+  loginfirst:"Connecte-toi pour écrire.",del:"Supprimer",badlogin:"E-mail ou mot de passe incorrect.",wait:"…",
+  forgot:"Mot de passe oublié ?",forgot_need:"Entre ton e-mail dans le champ ci-dessus, puis reclique sur « Mot de passe oublié ? ».",forgot_sent:"Si ce compte existe, un e-mail t'a été envoyé. S'il n'arrive pas, contacte Alain, le créateur du jeu.",
+  rec_h:"Nouveau mot de passe",rec_p1:"Nouveau mot de passe (6 caractères minimum)",rec_p2:"Répète le nouveau mot de passe",rec_btn:"Enregistrer le mot de passe",rec_diff:"Les deux mots de passe ne sont pas identiques.",rec_ok:"Mot de passe changé ! Tu peux maintenant te connecter dans le jeu avec le nouveau."},
  en:{t_compte:"Create an account",t_home:"Home",t_com:"Merchants",t_jeu:"Pictures & FAQ",t_profil:"Player profile",
   c_h1:"Your Creator account",c_lede:"The same account works in the game (Android, PC, Mac, iPhone) and on this site: profile, forum and soon your progress.",
   c_new:"Sign up",pseudo:"Nickname (what others see)",mail:"Email",pass:"Password (at least 6 characters)",pass2:"Password",
@@ -276,10 +288,13 @@ const T = {
   u_niveau:"Lv ",u_cartes:" cards",u_tues:" defeated",u_maison:" px",u_note:" ★",
   nobody:"No players yet. Create your account and be the first!",lvl:"Level ",seen:"Seen ",online:"Online",you:"you",
   needavis:"At least 3 reviews are needed to be ranked by rating.",
-  loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…"}
+  loginfirst:"Log in to write.",del:"Delete",badlogin:"Wrong email or password.",wait:"…",
+  forgot:"Forgot your password?",forgot_need:"Type your email in the field above, then click \"Forgot your password?\" again.",forgot_sent:"If this account exists, an email has been sent. If it doesn't arrive, contact Alain, the game's creator.",
+  rec_h:"New password",rec_p1:"New password (6 characters minimum)",rec_p2:"Repeat the new password",rec_btn:"Save the password",rec_diff:"The two passwords do not match.",rec_ok:"Password changed! You can now log in to the game with the new one."}
 };
 const NEWS = {
- fr:["1.90 : casino, salle de jeux, boîte de nuit NOX et commissariat dans chaque ville, et 8 villas à Rome.",
+ fr:["1.91 : boutons du haut qui s'adaptent à ton écran, téléporteur dans le menu, musique pop, foule sonore, carte partout, météo, missions du jour, guerres de clans, soirées NOX, code d'invitation et mot de passe oublié.",
+     "1.90 : casino, salle de jeux, boîte de nuit NOX et commissariat dans chaque ville, et 8 villas à Rome.",
      "1.89 : Rome remplace Jérusalem, lance-flammes à l'armurerie, hôpitaux à Paris et Tel Aviv, échange de cartes entre joueurs, boutons mieux rangés et radio pop.",
      "1.88 : métiers entre joueurs, commerces de joueurs, événements chaque jour, cadeau quotidien et passe de saison, accueil guidé, concours de maisons, circuit de course, stade de foot et de basket, boutiques de vrais commerçants, et la voiture peut monter du sable sur la route.",
      "1.87 : éclairage beaucoup plus fort en blanc chaud dans tous les bâtiments, même la nuit, et 200 niveaux au lieu de 100.",
@@ -300,7 +315,8 @@ const NEWS = {
      "1.72 : coffres en bois, cuir, or ou diamant, pièces au sol, la tête suit la souris.",
      "1.71 : 30 collections de cartes à trouver et 30 objets 3D rares.",
      "Bientôt : le casino géant et de nouvelles voitures."],
- en:["1.90: casino, game room, NOX nightclub and police station in every city, and 8 villas in Rome.",
+ en:["1.91: top buttons that fit your screen, teleporter in the menu, pop music, crowd sounds, a map everywhere, weather, daily missions, clan wars, NOX party nights, invitation code and forgot password.",
+     "1.90: casino, game room, NOX nightclub and police station in every city, and 8 villas in Rome.",
      "1.89: Rome replaces Jerusalem, flamethrower at the gun shop, hospitals in Paris and Tel Aviv, card trading between players, tidier buttons and pop radio.",
      "1.88: jobs between players, player-run shops, daily events, daily gift and season pass, guided welcome, house contest, race circuit, football and basketball stadium, real merchants' shops, and cars can climb from the sand onto the road.",
      "1.87: much stronger warm white lighting inside every building, even at night, and 200 levels instead of 100.",
@@ -444,6 +460,27 @@ $("#f-login").onsubmit = async e => {
   msg("#li-msg", t("welcome") + pseudoOf(user), true);
   show("profil");
 };
+$("#li-forgot").onclick = async e => {
+  e.preventDefault();
+  if(!sb) return msg("#li-msg", t("offline"));
+  const mail = $("#li-mail").value.trim();
+  if(!mail || mail.indexOf("@") < 0){ $("#li-mail").focus(); return msg("#li-msg", t("forgot_need")); }
+  msg("#li-msg", t("wait"), true);
+  const { error } = await sb.auth.resetPasswordForEmail(mail, { redirectTo: location.origin + location.pathname }).catch(err => ({ error: err }));
+  if(error) return msg("#li-msg", error.message || t("offline"));
+  msg("#li-msg", t("forgot_sent"), true);
+};
+$("#f-recover").onsubmit = async e => {
+  e.preventDefault();
+  if(!sb) return msg("#rc-msg", t("offline"));
+  const a = $("#rc-pass").value;
+  if(a !== $("#rc-pass2").value) return msg("#rc-msg", t("rec_diff"));
+  msg("#rc-msg", t("wait"), true);
+  const { error } = await sb.auth.updateUser({ password: a }).catch(err => ({ error: err }));
+  if(error) return msg("#rc-msg", error.message || t("offline"));
+  msg("#rc-msg", t("rec_ok"), true);
+  $("#rc-pass").value = ""; $("#rc-pass2").value = "";
+};
 $("#p-out-btn").onclick = async () => { if(sb) await sb.auth.signOut(); };
 $("#f-pseudo").onsubmit = async e => {
   e.preventDefault();
@@ -519,6 +556,7 @@ $("#f-post").onsubmit = async e => {
 
 if(sb){
   sb.auth.onAuthStateChange((ev, session) => { user = session ? session.user : null; renderUser(); loadPosts();
+    if(ev === "PASSWORD_RECOVERY"){ $("#f-recover").hidden = false; show("compte"); }
     if(user && (ev === "SIGNED_IN" || ev === "INITIAL_SESSION")) claimRow(); else renderPlayers(); });
   sb.auth.getSession().then(r => { user = r.data && r.data.session ? r.data.session.user : null; renderUser(); }, () => {});
 }
