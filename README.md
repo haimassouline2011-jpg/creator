@@ -2,7 +2,16 @@
 
 Jeu mobile de construction : chaque joueur a une maison dans une ville partagée, et la construit et l'améliore (murs, terrain, meubles). Style 3D "pixel art" (voxels).
 
-## État actuel : version 1.89 (Android, PC Windows, Mac et iPhone web : apk/creator-1.89.apk, apk/creator-1.89-pc.zip, apk/creator-1.89-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+## État actuel : version 1.90 (Android, PC Windows, Mac et iPhone web : apk/creator-1.90.apk, apk/creator-1.90-pc.zip, apk/creator-1.90-mac.zip, dossier web/, en ligne sur https://haimassouline2011-jpg.github.io/creator/)
+
+## Version 1.90 (2026-10-26)
+- Les trois villes ont les bâtiments de Hong Kong (demande d'Alain : « il faut que les 3 villes aient les mêmes bâtiments »). Nouveau module lieux.gd (un par ville) : casino (casino.gd posé en `at`), boîte de nuit NOX (boite.gd `setup_extra` : bar, danse, musique, l'ivresse et l'écran flou restent ceux de la NOX de Hong Kong ; sounds.gd baisse l'ambiance avec `boite.duck_max()`), entrée de la Creator Arena (salle_jeux.gd `add_door` : on entre dans la même salle et on ressort devant la porte de sa ville) et commissariat. Panneaux dans la langue de la ville et en français, non traduits automatiquement ; repères sur la minimap.
+- Paris : boulevard de Clichy, une rue neuve au nord (z -325 à -414, paris.NORD_Z, mur de pierre au bout) avec le Casino de Paris, la NOX, la Creator Arena et le Commissariat de police. Les immeubles de fond qui étaient là ne sont plus dessinés mais leur tirage est gardé. Carte cartes_villes/paris.jpg agrandie de 160 px en haut (rect minimap z -425).
+- Tel Aviv : commissariat (משטרת ישראל), Creator Arena (אולם משחקים) et NOX (מועדון לילה) sur la rangée libre au sud de Rothschild, à côté d'Ichilov (telaviv.POLICE, ARENA, NOX). Le casino Tel Aviv Royale existait déjà.
+- Rome : quartier sud (z 400 à 600, rome.SUD) : viale delle Terme avec le Casinò di Roma, la NOX (Discoteca) et la Creator Arena (Sala giochi), puis la via Appia Nuova et huit villas avec jardin et piscine à acheter ou louer (rome_immo.gd, reprend les pavillons de paris_immo.gd ; agence Roma Immobiliare ; sauvegarde « immo_rome »). La Polizia di Stato existait déjà. Carte de Rome étendue au sud.
+- Hong Kong n'a pas de commissariat (seulement les voitures de patrouille) ; l'arrestation (police._arrest) n'utilise aucun bâtiment, rien à changer de ce côté.
+- Tout est construit à la fin de la construction de chaque ville, sans tirer le rng de la ville : les 145 appartements de Paris et les 111 tours de Tel Aviv sont identiques (vérifié). Échap ferme aussi les tables des casinos de Tel Aviv, Paris et Rome. Acheter ou louer une villa sauvegarde aussi joueur.json (immo_paris et immo_rome). Classement : les villas de Rome achetées comptent dans la valeur des maisons.
+- Captures `captures/villes-*.png`.
 
 ## Version 1.89 (2026-10-23)
 - Hôpitaux de ville : Paris (Hôtel-Dieu, au nord de l'Étoile, paris.HOPITAL) et Tel Aviv (Ichilov, rangée libre au sud de Rothschild, telaviv.HOPITAL), construits par hopitaux.gd comme l'Ospedale de Rome (comptoir des urgences : +60 PV pour 40 px). Après un KO, sante._city_hospital renvoie à l'hôpital de la ville (dans un centre commercial : la ville d'entrée, marches.back_city), sinon Hong Kong. L'Hôtel-Dieu est construit à la fin de paris.ensure_built pour ne pas décaler le tirage des immeubles (labels < 150).
