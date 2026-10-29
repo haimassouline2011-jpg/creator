@@ -1,1 +1,1 @@
-{"version": "2.05", "code": 115, "notes": {"fr": "Rapport de plantage plus précis (étapes du démarrage et journal du moteur).", "en": "More precise crash report (start-up steps and engine log).", "he": "דוח קריסה מדויק יותר."}}
+{"version": "2.06", "code": 116, "notes": {"fr": "Tests de rendu après un plantage pour trouver sa cause.", "en": "Rendering tests after a crash to find its cause.", "he": "בדיקות רינדור אחרי קריסה כדי למצוא את הסיבה."}}
