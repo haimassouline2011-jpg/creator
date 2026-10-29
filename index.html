@@ -115,7 +115,17 @@ body {
 		// Version dans l'adresse : après une mise à jour, le navigateur ne garde pas l'ancien jeu en cache
 		const v = typeof GODOT_CONFIG !== 'undefined' ? '?v=' + GODOT_CONFIG.fileSizes['index.pck'] : '';
 		if (url.endsWith('index.pck')) {
-			return realFetch('donnees-pck.wasm' + v, init);
+			return realFetch('donnees-pck.wasm' + v, init).then(async (r) => {
+				if (!r.ok) {
+					return r;
+				}
+				let buf = new Uint8Array(await r.arrayBuffer());
+				if (buf[0] === 0x1f && buf[1] === 0x8b) {
+					const stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'));
+					buf = new Uint8Array(await new Response(stream).arrayBuffer());
+				}
+				return new Response(buf, { headers: { 'Content-Type': 'application/octet-stream' } });
+			});
 		}
 		if (!url.endsWith('index.wasm')) {
 			return realFetch(input, init);
