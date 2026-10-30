@@ -1,1 +1,1 @@
-{"version": "2.12", "code": 122, "notes": {"fr": "Retour du réglage de lumières d'origine sur Android (correction d'ouverture).", "en": "Original light settings restored on Android (opening fix).", "he": "החזרת הגדרת האורות המקורית באנדרואיד (תיקון פתיחה)."}}
+{"version": "2.13", "code": 123, "notes": {"fr": "Test : pas de son sur Android (recherche d'un plantage).", "en": "Test: no sound on Android (crash search).", "he": "בדיקה: בלי צליל באנדרואיד (חיפוש קריסה)."}}
