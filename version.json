@@ -1,1 +1,1 @@
-{"version": "2.08", "code": 118, "notes": {"fr": "Test : physique coupée, monde visible.", "en": "Test: physics off, world visible.", "he": "בדיקה: פיזיקה כבויה, העולם גלוי."}}
+{"version": "2.09", "code": 119, "notes": {"fr": "Moins de lumières par objet sur Android (test de stabilité).", "en": "Fewer lights per object on Android (stability test).", "he": "פחות אורות לכל אובייקט באנדרואיד (בדיקת יציבות)."}}
