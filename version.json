@@ -1,1 +1,1 @@
-{"version": "2.09", "code": 119, "notes": {"fr": "Moins de lumières par objet sur Android (test de stabilité).", "en": "Fewer lights per object on Android (stability test).", "he": "פחות אורות לכל אובייקט באנדרואיד (בדיקת יציבות)."}}
+{"version": "2.10", "code": 120, "notes": {"fr": "Tests d'affichage 3D après un plantage.", "en": "3D display tests after a crash.", "he": "בדיקות תצוגת תלת מימד אחרי קריסה."}}
