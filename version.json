@@ -1,1 +1,1 @@
-{"version": "2.14", "code": 124, "notes": {"fr": "Diagnostic : jalons après la téléportation chez soi.", "en": "Diagnostic: checkpoints after teleporting home.", "he": "אבחון: נקודות ציון אחרי הטלפורט הביתה."}}
+{"version": "2.15", "code": 125, "notes": {"fr": "Test : pas de remise de la dernière position au démarrage sur Android.", "en": "Test: last position is not restored at startup on Android.", "he": "אבחון: נקודות ציון אחרי הטלפורט הביתה."}}
