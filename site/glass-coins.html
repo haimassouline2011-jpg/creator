@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glass Coins</title>
+<style>
+  :root{--bg:#07070c;--fg:#f4f4f8;--muted:#9a9ab0}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+  #coins{position:fixed;inset:0;display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+  #coins:active{cursor:grabbing}
+  .label{position:fixed;left:0;right:0;bottom:32px;text-align:center;pointer-events:none;padding:0 16px}
+  .label h1{margin:0;font-size:clamp(28px,6vw,64px);letter-spacing:-.03em;font-weight:700}
+  .label p{margin:8px 0 0;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<canvas id="coins" aria-label="Pièces en verre animées"></canvas>
+<div class="label"><h1>Creator</h1><p>Survole une pièce · clique pour la faire tourner</p></div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+/* ---------- Réglages (modifiables) ---------- */
+const CONFIG = {
+  count: 9,               // nombre de pièces
+  tint: '#ffffff',        // teinte du verre
+  thickness: 1.2,         // épaisseur optique du verre
+  iridescence: 0.9,       // reflets arc-en-ciel sur les faces
+  floatSpeed: 0.6,        // vitesse de flottement
+  spinSpeed: 0.35,        // rotation de base
+  mouseTilt: 0.35,        // inclinaison de la scène avec la souris
+  blobColors: ['#7c3aed', '#06b6d4', '#f43f5e', '#f59e0b'], // lumières colorées derrière le verre
+  symbol: 'C'             // lettre gravée au centre
+};
+
+const canvas = document.getElementById('coins');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#07070c');
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+camera.position.set(0, 0, 14);
+
+/* ---------- Taches de lumière floues derrière (le verre les réfracte) ---------- */
+function blobTexture(color) {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  grd.addColorStop(0, color); grd.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grd; g.fillRect(0, 0, 256, 256);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const blobs = CONFIG.blobColors.map((col, i) => {
+  const m = new THREE.Mesh(
+    new THREE.PlaneGeometry(9, 9),
+    new THREE.MeshBasicMaterial({ map: blobTexture(col), transparent: false, depthWrite: false, blending: THREE.AdditiveBlending })
+  );
+  m.position.set((i - 1.5) * 3.2, (i % 2 ? 1.5 : -1.5), -6);
+  m.userData.phase = i * 1.7;
+  scene.add(m);
+  return m;
+});
+
+/* ---------- Géométrie de la pièce (profil tourné) ---------- */
+function coinGeometry() {
+  const R = 1, H = 0.16, rim = 0.12, inset = 0.05, b = 0.035;
+  const p = [];
+  const v = (x, y) => p.push(new THREE.Vector2(x, y));
+  // face avant : centre en creux, rebord saillant, tranche arrondie
+  v(0, H - inset);
+  v(R - rim - 0.02, H - inset);
+  v(R - rim, H);
+  v(R - b, H);
+  for (let a = 0; a <= 8; a++) {           // arrondi supérieur
+    const t = (a / 8) * Math.PI / 2;
+    v(R - b + Math.sin(t) * b, H - b + Math.cos(t) * b);
+  }
+  v(R, -H + b);
+  for (let a = 0; a <= 8; a++) {           // arrondi inférieur
+    const t = Math.PI / 2 + (a / 8) * Math.PI / 2;
+    v(R - b + Math.sin(t) * b, -H + b + Math.cos(t) * b);
+  }
+  v(R - rim, -H);
+  v(R - rim - 0.02, -H + inset);
+  v(0, -H + inset);
+  const g = new THREE.LatheGeometry(p, 96);
+  g.rotateX(Math.PI / 2);                  // face tournée vers la caméra
+  return g;
+}
+
+// lettre en relief au centre
+function symbolGeometry(ch) {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, 256, 256);
+  g.fillStyle = '#fff'; g.font = '700 190px system-ui, sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ch, 128, 140);
+  return new THREE.CanvasTexture(c);
+}
+
+const geo = coinGeometry();
+const symbolMap = symbolGeometry(CONFIG.symbol);
+const glass = new THREE.MeshPhysicalMaterial({
+  color: CONFIG.tint,
+  metalness: 0,
+  roughness: 0.05,
+  transmission: 1,
+  thickness: CONFIG.thickness,
+  ior: 1.5,
+  iridescence: CONFIG.iridescence,
+  iridescenceIOR: 1.3,
+  iridescenceThicknessRange: [100, 600],
+  clearcoat: 1,
+  clearcoatRoughness: 0.05,
+  envMapIntensity: 1.4,
+  specularIntensity: 1,
+  dispersion: 3
+});
+const symbolMat = new THREE.MeshPhysicalMaterial({
+  color: '#ffffff', roughness: 0.1, transmission: 0.9, thickness: 0.4, opacity: 0.85,
+  alphaMap: symbolMap, transparent: true, iridescence: 1, envMapIntensity: 2
+});
+const symbolGeo = new THREE.CircleGeometry(0.62, 64);
+
+/* ---------- Les pièces ---------- */
+const group = new THREE.Group();
+scene.add(group);
+const coins = [];
+const rand = (a, b) => a + Math.random() * (b - a);
+
+for (let i = 0; i < CONFIG.count; i++) {
+  const pivot = new THREE.Group();
+  const coin = new THREE.Mesh(geo, glass);
+  const front = new THREE.Mesh(symbolGeo, symbolMat); front.position.z = 0.112;
+  const back = front.clone(); back.position.z = -0.112; back.rotation.y = Math.PI;
+  coin.add(front, back);
+  pivot.add(coin);
+
+  // répartition en spirale douce
+  const a = i * 2.399, r = 1.2 + Math.sqrt(i / CONFIG.count) * 3.6;
+  pivot.position.set(Math.cos(a) * r * 1.25, Math.sin(a) * r * 0.62, rand(-2, 1.5));
+  const s = rand(0.75, 1.15);
+  pivot.scale.setScalar(s);
+  coin.rotation.set(rand(-0.6, 0.6), rand(-1, 1), rand(-0.4, 0.4));
+
+  coin.userData = {
+    base: pivot.position.clone(),
+    phase: rand(0, Math.PI * 2),
+    spin: rand(0.6, 1.3) * (Math.random() < 0.5 ? -1 : 1),
+    boost: 0, hover: 0
+  };
+  group.add(pivot);
+  coins.push(coin);
+}
+
+/* ---------- Souris / tactile ---------- */
+const mouse = new THREE.Vector2(0, 0), target = new THREE.Vector2(0, 0);
+const ray = new THREE.Raycaster();
+let hovered = null, inside = false;
+
+function setPointer(e) {
+  const r = canvas.getBoundingClientRect();
+  target.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+  target.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+  inside = true;
+}
+canvas.addEventListener('pointermove', setPointer);
+canvas.addEventListener('pointerleave', () => { inside = false; target.set(0, 0); });
+canvas.addEventListener('pointerdown', e => {
+  setPointer(e);
+  ray.setFromCamera(target, camera);
+  const hit = ray.intersectObjects(coins, false)[0];
+  if (hit) hit.object.userData.boost += 14;     // pichenette : la pièce tourne
+});
+
+/* ---------- Taille ---------- */
+const layout = { x: 1, y: 1 };
+function resize() {
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  // sur mobile on recule la caméra pour garder toutes les pièces
+  const portrait = w / h < 0.8;
+  camera.position.z = portrait ? 25 : 14;
+  layout.x = portrait ? 0.5 : 1;
+  layout.y = portrait ? 2.1 : 1;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+resize();
+
+/* ---------- Boucle ---------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clock = new THREE.Clock();
+
+function tick() {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  const t = clock.elapsedTime * (reduce ? 0.15 : 1);
+
+  mouse.lerp(target, 0.06);
+  group.rotation.y = mouse.x * CONFIG.mouseTilt;
+  group.rotation.x = -mouse.y * CONFIG.mouseTilt * 0.7;
+
+  // survol
+  hovered = null;
+  if (inside) {
+    ray.setFromCamera(target, camera);
+    const hit = ray.intersectObjects(coins, false)[0];
+    if (hit) hovered = hit.object;
+  }
+  canvas.style.cursor = hovered ? 'pointer' : 'grab';
+
+  for (const c of coins) {
+    const u = c.userData, p = c.parent;
+    u.hover += ((c === hovered ? 1 : 0) - u.hover) * 0.1;
+    u.boost *= 0.96;
+    p.position.x = u.base.x * layout.x + Math.sin(t * 0.5 * CONFIG.floatSpeed + u.phase) * 0.25;
+    p.position.y = u.base.y * layout.y + Math.sin(t * CONFIG.floatSpeed + u.phase) * 0.35;
+    p.position.z = u.base.z + u.hover * 0.8;
+    c.rotation.y += dt * (CONFIG.spinSpeed * u.spin + u.boost + u.hover * 2.5);
+    c.rotation.x = Math.sin(t * 0.4 + u.phase) * 0.35;
+  }
+
+  blobs.forEach((b, i) => {
+    const ph = b.userData.phase;
+    b.position.x = (i - 1.5) * 3.2 * layout.x + Math.sin(t * 0.3 + ph) * 2;
+    b.position.y = (i % 2 ? 1.5 : -1.5) + Math.cos(t * 0.25 + ph) * 1.5;
+  });
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body>
+</html>
